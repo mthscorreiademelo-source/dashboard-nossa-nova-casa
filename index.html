@@ -208,8 +208,9 @@ tr:hover td{background:var(--bg3)}
 .model-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r-sm);overflow:hidden;transition:border-color .15s;cursor:default}
 .model-card:hover{border-color:var(--border2)}
 .model-card.best{border-color:var(--green);border-width:2px}
-.model-img{width:100%;height:140px;object-fit:cover;background:var(--bg4);display:block}
-.model-img-placeholder{width:100%;height:140px;background:var(--bg4);display:flex;align-items:center;justify-content:center;font-size:32px;color:var(--text3)}
+.model-img-wrap{width:100%;aspect-ratio:5/3;overflow:hidden;background:var(--bg4);display:block;position:relative}
+.model-img{width:100%;height:100%;object-fit:cover;display:block}
+.model-img-placeholder{width:100%;aspect-ratio:5/3;background:var(--bg4);display:flex;align-items:center;justify-content:center;font-size:32px;color:var(--text3)}
 .model-body{padding:.85rem}
 .model-name{font-size:13px;font-weight:600;color:var(--text);margin-bottom:2px}
 .model-brand{font-size:11px;color:var(--text3);margin-bottom:8px}
@@ -440,6 +441,7 @@ tr:hover td{background:var(--bg3)}
   <div class="modal">
     <div class="modal-title" id="modal-modelo-title">Adicionar modelo <button class="modal-close" onclick="closeModal('modal-modelo')">×</button></div>
     <input type="hidden" id="nm-itemId">
+    <input type="hidden" id="nm-editing-id">
     <div class="form-group"><label class="form-label">Nome do modelo *</label><input class="form-input" id="nm-nome" placeholder="Ex: Electrolux TF38S 320L Inox"></div>
     <div class="form-row">
       <div class="form-group"><label class="form-label">Marca</label><input class="form-input" id="nm-marca" placeholder="Ex: Electrolux"></div>
@@ -897,13 +899,13 @@ function renderModelGrid(itemId){
     const pp=modeloPrices(m.id);
     const lp=modeloLast(m.id); const mp=modeloMin(m.id);
     const isBest=m.id===bestModeloId;
-    // últimos 3 registros de preço
     const recentPrices=pp.slice(-4);
     return `<div class="model-card${isBest?' best':''}">
-      ${m.imagem
-        ?`<img class="model-img" src="${m.imagem}" alt="${m.nome}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
-        :''}
-      <div class="model-img-placeholder" style="${m.imagem?'display:none':''}">🛍️</div>
+      <div class="model-img-wrap">
+        ${m.imagem
+          ?`<img class="model-img" src="${m.imagem}" alt="${m.nome}" onerror="this.parentElement.innerHTML='<div class=\\'model-img-placeholder\\'>🛍️</div>'">`
+          :'<div class="model-img-placeholder">🛍️</div>'}
+      </div>
       <div class="model-body">
         <div class="model-name">${m.nome}</div>
         <div class="model-brand">${[m.marca,m.modelo].filter(Boolean).join(' · ')||'—'}</div>
@@ -921,7 +923,8 @@ function renderModelGrid(itemId){
           <div class="model-actions">
             ${m.link?`<a href="${m.link}" target="_blank" class="btn btn-sm" onclick="event.stopPropagation()">🔗 Ver</a>`:''}
             <button class="btn btn-sm" onclick="openRegPrecoModelo('${m.id}');event.stopPropagation()">+ Preço</button>
-            <button class="btn btn-icon btn-sm" title="Excluir modelo" onclick="deleteModelo('${m.id}');event.stopPropagation()">✕</button>
+            <button class="btn btn-icon btn-sm" title="Editar modelo" onclick="openEditModelo('${m.id}');event.stopPropagation()">✎</button>
+            <button class="btn btn-icon btn-sm btn-danger" title="Excluir modelo" onclick="deleteModelo('${m.id}');event.stopPropagation()">✕</button>
           </div>
         </div>
         ${m.obs?`<div style="font-size:11px;color:var(--text3);margin-top:6px;padding-top:6px;border-top:1px solid var(--border)">${m.obs}</div>`:''}
@@ -935,8 +938,30 @@ function openAddModel(){
   const item=getItem(currentDetailItemId);
   document.getElementById('modal-modelo-title').innerHTML=`Adicionar modelo — ${item?item.nome:''} <button class="modal-close" onclick="closeModal('modal-modelo')">×</button>`;
   document.getElementById('nm-itemId').value=currentDetailItemId;
+  document.getElementById('nm-editing-id').value='';
   ['nm-nome','nm-marca','nm-modelo','nm-link','nm-imagem','nm-obs'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('nm-img-preview').style.display='none';
+  document.getElementById('btn-save-modelo').textContent='Salvar modelo';
+  openModal('modal-modelo');
+}
+
+function openEditModelo(modeloId){
+  const m=getModelo(modeloId); if(!m)return;
+  const item=getItem(m.itemId);
+  document.getElementById('modal-modelo-title').innerHTML=`Editar modelo — ${item?item.nome:''} <button class="modal-close" onclick="closeModal('modal-modelo')">×</button>`;
+  document.getElementById('nm-itemId').value=m.itemId;
+  document.getElementById('nm-editing-id').value=modeloId;
+  document.getElementById('nm-nome').value=m.nome;
+  document.getElementById('nm-marca').value=m.marca;
+  document.getElementById('nm-modelo').value=m.modelo;
+  document.getElementById('nm-link').value=m.link;
+  document.getElementById('nm-imagem').value=m.imagem;
+  document.getElementById('nm-obs').value=m.obs;
+  document.getElementById('btn-save-modelo').textContent='Salvar alterações';
+  const preview=document.getElementById('nm-img-preview');
+  const img=document.getElementById('nm-img-el');
+  if(m.imagem){preview.style.display='block';img.src=m.imagem;}
+  else{preview.style.display='none';}
   openModal('modal-modelo');
 }
 
@@ -1146,24 +1171,40 @@ async function saveItem(){
   setBtnLoading('btn-save-item',false,'Salvar');
 }
 
-// ── SAVE MODELO ───────────────────────────────────────
+// ── SAVE MODELO (create ou edit) ──────────────────────
 async function saveModelo(){
   const itemId=document.getElementById('nm-itemId').value;
+  const editingId=document.getElementById('nm-editing-id').value;
   const nome=document.getElementById('nm-nome').value.trim();
   if(!nome){showToast('Informe o nome do modelo','error');return;}
-  const modelo={id:uid(),itemId,nome,
+  const dados={
+    nome, itemId,
     marca:document.getElementById('nm-marca').value.trim(),
     modelo:document.getElementById('nm-modelo').value.trim(),
     link:document.getElementById('nm-link').value.trim(),
     imagem:document.getElementById('nm-imagem').value.trim(),
-    obs:document.getElementById('nm-obs').value.trim()};
+    obs:document.getElementById('nm-obs').value.trim()
+  };
   setBtnLoading('btn-save-modelo',true);
   try{
-    await appendRow(ABAS.modelos,[modelo.id,modelo.itemId,modelo.nome,modelo.marca,modelo.modelo,modelo.link,modelo.imagem,modelo.obs]);
-    state.modelos.push(modelo);
+    if(editingId){
+      // EDITAR — reescreve a aba modelos
+      const m=getModelo(editingId);
+      if(m){ Object.assign(m,dados); }
+      const hdr=['id','itemId','nome','marca','modelo','link','imagem','obs'];
+      const rows=state.modelos.map(x=>[x.id,x.itemId,x.nome,x.marca,x.modelo,x.link,x.imagem,x.obs]);
+      await rewriteAba(ABAS.modelos,hdr,rows);
+      showToast('"'+nome+'" atualizado','success');
+    } else {
+      // CRIAR — append
+      const modelo={id:uid(),...dados};
+      await appendRow(ABAS.modelos,[modelo.id,modelo.itemId,modelo.nome,modelo.marca,modelo.modelo,modelo.link,modelo.imagem,modelo.obs]);
+      state.modelos.push(modelo);
+      showToast('"'+nome+'" adicionado','success');
+    }
     closeModal('modal-modelo');
-    renderModelGrid(itemId);renderAll();
-    showToast('"'+nome+'" adicionado','success');
+    renderModelGrid(itemId);
+    renderAll();
   }catch(e){showToast('Erro ao salvar','error');console.error(e);}
   setBtnLoading('btn-save-modelo',false,'Salvar modelo');
 }
