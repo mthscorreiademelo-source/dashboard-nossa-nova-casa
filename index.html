@@ -8,164 +8,147 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
 :root {
-  --bg:    #F5F3EF;
-  --bg2:   #FFFFFF;
-  --bg3:   #F0EDE8;
-  --bg4:   #E8E4DE;
-  --border:  rgba(0,0,0,.08);
-  --border2: rgba(0,0,0,.14);
-  --text:  #1C1A17;
-  --text2: #6B6760;
-  --text3: #9E9B95;
-  --accent: #A0783A;
-  --green:   #1A7A54;
-  --amber:   #92400E;
-  --red:     #991B1B;
-  --blue:    #1E40AF;
-  --r: 12px;
-  --r-sm: 8px;
+  --bg:#F5F3EF; --bg2:#FFFFFF; --bg3:#F0EDE8; --bg4:#E8E4DE;
+  --border:rgba(0,0,0,.08); --border2:rgba(0,0,0,.14);
+  --text:#1C1A17; --text2:#6B6760; --text3:#9E9B95;
+  --accent:#A0783A; --green:#1A7A54; --amber:#92400E; --red:#991B1B; --blue:#1E40AF;
+  --r:12px; --r-sm:8px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{font-family:'Instrument Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;line-height:1.6}
-::-webkit-scrollbar{width:4px;height:4px}
-::-webkit-scrollbar-track{background:transparent}
-::-webkit-scrollbar-thumb{background:var(--border2);border-radius:99px}
+::-webkit-scrollbar{width:4px;height:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--border2);border-radius:99px}
 
-/* ── SYNC BAR ── */
-.sync-bar{background:var(--bg2);border-bottom:1px solid var(--border);padding:.5rem 2.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
-.sync-bar-inner{max-width:1300px;margin:0 auto;width:100%;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+/* SYNC */
+.sync-bar{background:var(--bg2);border-bottom:1px solid var(--border);padding:.45rem 2.5rem}
+.sync-inner{max-width:1300px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
 .sync-status{display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text3)}
 .sync-dot{width:7px;height:7px;border-radius:50%;background:var(--text3)}
-.sync-dot.ok{background:var(--green)}
-.sync-dot.err{background:var(--red)}
-.sync-dot.loading{background:var(--amber);animation:pulse 1s infinite}
+.sync-dot.ok{background:var(--green)}.sync-dot.err{background:var(--red)}.sync-dot.loading{background:var(--amber);animation:pulse 1s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-.sync-actions{display:flex;gap:6px;align-items:center}
 
-/* ── HEADER ── */
-.header{padding:1.5rem 2.5rem;border-bottom:1px solid var(--border);background:var(--bg)}
+/* HEADER */
+.header{padding:1.4rem 2.5rem;border-bottom:1px solid var(--border);background:var(--bg)}
 .header-inner{max-width:1300px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
 .logo{display:flex;align-items:center;gap:12px}
 .logo-mark{width:36px;height:36px;border:1.5px solid var(--accent);border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:var(--accent)}
-.logo-text h1{font-family:'Syne',sans-serif;font-size:18px;font-weight:600;color:var(--text);line-height:1}
+.logo-text h1{font-family:'Syne',sans-serif;font-size:18px;font-weight:600;line-height:1}
 .logo-text p{font-size:11px;color:var(--text3);margin-top:2px}
-.header-stats{display:flex;gap:2rem;align-items:center;flex-wrap:wrap}
-.hstat{text-align:right}
+.hstats{display:flex;gap:2rem;align-items:center;flex-wrap:wrap}
 .hstat-val{font-family:'Syne',sans-serif;font-size:18px;font-weight:600;color:var(--accent)}
 .hstat-label{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.08em}
 .hstat-sep{width:1px;height:32px;background:var(--border2)}
 
-/* ── NAV ── */
+/* NAV */
 .nav{border-bottom:1px solid var(--border);background:var(--bg)}
 .nav-inner{max-width:1300px;margin:0 auto;padding:0 2.5rem;display:flex}
-.nav-btn{font-family:'Syne',sans-serif;font-size:12px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;padding:.9rem 1.25rem;border:none;background:none;cursor:pointer;color:var(--text3);border-bottom:2px solid transparent;transition:all .2s;position:relative;top:1px}
-.nav-btn:hover{color:var(--text)}
-.nav-btn.active{color:var(--accent);border-bottom-color:var(--accent)}
+.nav-btn{font-family:'Syne',sans-serif;font-size:12px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;padding:.85rem 1.25rem;border:none;background:none;cursor:pointer;color:var(--text3);border-bottom:2px solid transparent;transition:all .2s;position:relative;top:1px}
+.nav-btn:hover{color:var(--text)}.nav-btn.active{color:var(--accent);border-bottom-color:var(--accent)}
 
-/* ── MAIN ── */
+/* MAIN */
 .main{max-width:1300px;margin:0 auto;padding:2rem 2.5rem 5rem}
-.tab-content{display:none}
-.tab-content.show{display:block}
+.tab-content{display:none}.tab-content.show{display:block}
 .section-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem;gap:1rem;flex-wrap:wrap}
 .section-title{font-family:'Syne',sans-serif;font-size:13px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text3)}
 .section-gap{margin-bottom:1.75rem}
-
-/* ── CARD ── */
-.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:1.25rem 1.5rem}
-.card-title{font-family:'Syne',sans-serif;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:1.1rem;display:flex;justify-content:space-between;align-items:center;gap:.5rem;flex-wrap:wrap}
-
-/* ── GRID ── */
 .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-bottom:1.25rem}
 .grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1.5rem}
 @media(max-width:1000px){.grid-2{grid-template-columns:1fr}.grid-4{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:600px){.grid-4{grid-template-columns:1fr}}
 
-/* ── METRIC ── */
+/* CARD */
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:1.25rem 1.5rem}
+.card-title{font-family:'Syne',sans-serif;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:1.1rem;display:flex;justify-content:space-between;align-items:center;gap:.5rem;flex-wrap:wrap}
+
+/* METRIC */
 .metric{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:1.1rem 1.25rem;position:relative;overflow:hidden}
 .metric-accent{position:absolute;top:0;left:0;right:0;height:2px}
 .metric-label{font-size:10px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-bottom:.5rem}
 .metric-value{font-family:'Syne',sans-serif;font-size:24px;font-weight:700;line-height:1;margin-bottom:.3rem}
 .metric-sub{font-size:11px;color:var(--text3)}
 
-/* ── PROGRESS ── */
+/* PROGRESS */
 .prog-row{margin-bottom:12px}
 .prog-meta{display:flex;justify-content:space-between;font-size:12px;margin-bottom:5px;color:var(--text2)}
 .prog-meta strong{color:var(--text);font-weight:500}
 .prog-bg{height:4px;background:var(--bg4);border-radius:99px;overflow:hidden}
 .prog-fill{height:100%;border-radius:99px;transition:width .6s cubic-bezier(.4,0,.2,1)}
 
-/* ── BTN ── */
+/* BTN */
 .btn{font-family:'Syne',sans-serif;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:7px 16px;border-radius:var(--r-sm);border:1px solid var(--border2);background:var(--bg3);cursor:pointer;color:var(--text2);transition:all .15s;white-space:nowrap}
-.btn:hover{background:var(--bg4);color:var(--text)}
-.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn:hover{background:var(--bg4);color:var(--text)}.btn:disabled{opacity:.4;cursor:not-allowed}
 .btn-accent{background:var(--accent);color:#FFF;border-color:var(--accent);font-weight:700}
 .btn-accent:hover{opacity:.85;color:#FFF}
 .btn-sm{font-size:10px;padding:5px 11px}
 .btn-icon{width:30px;height:30px;padding:0;display:inline-flex;align-items:center;justify-content:center;font-size:14px}
+.btn-danger{color:var(--red);border-color:rgba(153,27,27,.2)}
+.btn-danger:hover{background:#FEE2E2;color:var(--red)}
 
-/* ── BADGE ── */
-.badge{display:inline-flex;align-items:center;font-size:10px;font-weight:600;padding:2px 8px;border-radius:99px;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap;gap:4px}
-.b-alta{background:#FEE2E2;color:#991B1B}
-.b-media{background:#FEF3C7;color:#92400E}
-.b-baixa{background:var(--bg4);color:var(--text3)}
-.b-essencial{background:#D1FAE5;color:#065F46}
-.b-desejavel{background:#DBEAFE;color:#1E40AF}
-.b-comprado{background:#D1FAE5;color:#065F46}
-.b-pesquisa{background:#FEF3C7;color:#92400E}
-.b-nao{background:var(--bg4);color:var(--text3)}
+/* BADGE */
+.badge{display:inline-flex;align-items:center;font-size:10px;font-weight:600;padding:2px 8px;border-radius:99px;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap}
+.b-alta{background:#FEE2E2;color:#991B1B}.b-media{background:#FEF3C7;color:#92400E}.b-baixa{background:var(--bg4);color:var(--text3)}
+.b-essencial{background:#D1FAE5;color:#065F46}.b-desejavel{background:#DBEAFE;color:#1E40AF}
+.b-comprado{background:#D1FAE5;color:#065F46}.b-pesquisa{background:#FEF3C7;color:#92400E}.b-nao{background:var(--bg4);color:var(--text3)}
+.b-modelos{background:var(--bg3);color:var(--text2);border:1px solid var(--border2)}
 
-/* ── TABLE ── */
+/* TABLE */
 .table-wrap{overflow-x:auto;border-radius:var(--r);border:1px solid var(--border)}
-table{width:100%;border-collapse:collapse;font-size:13px;min-width:600px}
+table{width:100%;border-collapse:collapse;font-size:13px;min-width:500px}
 th{background:var(--bg3);font-family:'Syne',sans-serif;font-size:9px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);padding:10px 14px;text-align:left;border-bottom:1px solid var(--border);white-space:nowrap}
-td{padding:11px 14px;border-bottom:1px solid var(--border);vertical-align:middle;color:var(--text2)}
+td{padding:10px 14px;border-bottom:1px solid var(--border);vertical-align:middle;color:var(--text2)}
 tr:last-child td{border-bottom:none}
 tr:hover td{background:var(--bg3)}
-.td-name{color:var(--text);font-weight:500}
-.td-id{font-size:10px;color:var(--text3);margin-top:1px}
+.td-main{color:var(--text);font-weight:500}
+.td-sub{font-size:11px;color:var(--text3);margin-top:1px}
 .td-price{font-family:'Syne',sans-serif;font-size:15px;font-weight:600;color:var(--accent)}
 
-/* ── MODAL ── */
+/* MODAL */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:1000;display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;pointer-events:none;transition:opacity .2s}
 .modal-overlay.open{opacity:1;pointer-events:all}
-.modal{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);width:100%;max-width:560px;max-height:90vh;overflow-y:auto;padding:1.75rem;transform:translateY(16px);transition:transform .2s}
+.modal{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);width:100%;max-width:600px;max-height:92vh;overflow-y:auto;padding:1.75rem;transform:translateY(16px);transition:transform .2s}
 .modal-overlay.open .modal{transform:translateY(0)}
-.modal-title{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:var(--text);margin-bottom:1.5rem;display:flex;justify-content:space-between;align-items:center}
-.modal-close{background:none;border:none;color:var(--text3);font-size:22px;cursor:pointer;line-height:1;padding:0 2px}
+.modal-wide{max-width:800px}
+.modal-title{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:var(--text);margin-bottom:1.5rem;display:flex;justify-content:space-between;align-items:center;gap:.5rem}
+.modal-close{background:none;border:none;color:var(--text3);font-size:22px;cursor:pointer;line-height:1;flex-shrink:0}
 .modal-close:hover{color:var(--text)}
 
-/* ── FORM ── */
+/* FORM */
 .form-group{margin-bottom:1rem}
 .form-label{font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);margin-bottom:6px;display:block}
 .form-input,.form-select,.form-textarea{width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r-sm);padding:9px 12px;color:var(--text);font-family:'Instrument Sans',sans-serif;font-size:13px;outline:none;transition:border .15s}
 .form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--accent)}
 .form-select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%239E9B95' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center}
 .form-select option{background:var(--bg2)}
-.form-textarea{resize:vertical;min-height:70px}
+.form-textarea{resize:vertical;min-height:60px}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
 
-/* ── KANBAN ── */
+/* KANBAN */
 .kanban{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
 @media(max-width:900px){.kanban{grid-template-columns:1fr}}
-.kanban-col{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:1rem}
+.kanban-col{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:1rem;min-height:200px}
 .kanban-col-title{font-family:'Syne',sans-serif;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:1rem;padding-bottom:.75rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
-.col-alta .kanban-col-title{color:#991B1B}
-.col-media .kanban-col-title{color:#92400E}
-.col-baixa .kanban-col-title{color:var(--text3)}
+.col-alta .kanban-col-title{color:#991B1B}.col-media .kanban-col-title{color:#92400E}.col-baixa .kanban-col-title{color:var(--text3)}
 .kanban-col.drag-over{background:var(--bg3);border-color:var(--accent)}
-.kcard{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r-sm);padding:.85rem 1rem;margin-bottom:8px;cursor:grab;user-select:none;transition:all .15s;position:relative}
-.kcard:hover{border-color:var(--border2);background:var(--bg4)}
-.kcard.dragging{opacity:.35;cursor:grabbing}
-.kcard-name{font-size:13px;font-weight:500;color:var(--text);margin-bottom:4px;padding-right:20px}
-.kcard-meta{font-size:11px;color:var(--text3);display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-.kcard-price{font-family:'Syne',sans-serif;font-size:12px;color:var(--accent)}
-.kcard-cat{font-size:10px;padding:2px 7px;border-radius:99px;font-weight:600;text-transform:uppercase;letter-spacing:.05em}
-.kcard-hint{position:absolute;top:8px;right:8px;color:var(--text3);font-size:12px;opacity:.35}
 
-/* ── PIE ── */
+/* KCARD */
+.kcard{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r-sm);padding:.85rem 1rem;margin-bottom:8px;cursor:grab;user-select:none;transition:all .15s;position:relative}
+.kcard:hover{border-color:var(--accent);background:var(--bg4)}
+.kcard.dragging{opacity:.35;cursor:grabbing}
+.kcard-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:6px}
+.kcard-name{font-size:13px;font-weight:600;color:var(--text);line-height:1.3}
+.kcard-hint{color:var(--text3);font-size:14px;opacity:.3;flex-shrink:0;margin-top:1px}
+.kcard-meta{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-bottom:6px}
+.kcard-cat{font-size:10px;padding:2px 7px;border-radius:99px;font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+.kcard-footer{display:flex;justify-content:space-between;align-items:center;margin-top:6px;padding-top:6px;border-top:1px solid var(--border)}
+.kcard-price{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--accent)}
+.kcard-models{font-size:10px;color:var(--text3);cursor:pointer;text-decoration:underline;text-underline-offset:2px}
+.kcard-models:hover{color:var(--accent)}
+.kcard-open{font-size:11px;color:var(--accent);font-weight:600;cursor:pointer;opacity:0;transition:opacity .15s}
+.kcard:hover .kcard-open{opacity:1}
+
+/* PIE */
 .pie-wrap{display:flex;gap:2rem;align-items:flex-start;flex-wrap:wrap}
-.pie-canvas-wrap{width:240px;height:240px;flex-shrink:0;position:relative}
+.pie-canvas-wrap{width:240px;height:240px;flex-shrink:0}
 .pie-legend{flex:1;min-width:160px}
 .pie-legend-item{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--border);cursor:pointer;transition:opacity .15s}
 .pie-legend-item:last-child{border-bottom:none}
@@ -174,19 +157,18 @@ tr:hover td{background:var(--bg3)}
 .pie-legend-name{font-size:13px;color:var(--text);flex:1}
 .pie-legend-val{font-family:'Syne',sans-serif;font-size:13px;font-weight:600;color:var(--accent)}
 .pie-legend-pct{font-size:11px;color:var(--text3);min-width:34px;text-align:right}
-.pie-breadcrumb{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text3);margin-bottom:1rem;flex-wrap:wrap}
+.pie-breadcrumb{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text3);margin-bottom:1rem}
 .pie-breadcrumb button{background:none;border:none;color:var(--accent);cursor:pointer;font-size:12px;font-family:'Instrument Sans',sans-serif;padding:0;text-decoration:underline}
 
-/* ── PRICE CARDS ── */
-.price-item{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r-sm);padding:.85rem 1rem;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
+/* PRICE LOG */
+.price-item{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r-sm);padding:.8rem 1rem;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
 .pi-name{font-size:13px;font-weight:500;color:var(--text)}
 .pi-meta{font-size:11px;color:var(--text3)}
 .pi-price{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:var(--accent)}
 .pi-badge{font-size:10px;padding:2px 7px;border-radius:99px;font-weight:600;text-transform:uppercase;letter-spacing:.04em}
-.pi-min{background:#D1FAE5;color:#065F46}
-.pi-high{background:#FEE2E2;color:#991B1B}
+.pi-min{background:#D1FAE5;color:#065F46}.pi-high{background:#FEE2E2;color:#991B1B}
 
-/* ── OPP ── */
+/* OPP */
 .opp{border:1px solid var(--border);border-left:2px solid var(--green);border-radius:var(--r-sm);padding:.85rem 1rem;margin-bottom:8px;background:var(--bg3)}
 .opp.opp-warn{border-left-color:#B45309}
 .opp-head{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
@@ -195,47 +177,67 @@ tr:hover td{background:var(--bg3)}
 .opp-save.warn{color:#92400E}
 .opp-desc{font-size:11px;color:var(--text3);margin-top:3px}
 
-/* ── EMPTY ── */
+/* EMPTY */
 .empty{text-align:center;padding:2.5rem 1rem;color:var(--text3)}
 .empty-icon{font-size:32px;margin-bottom:.75rem;opacity:.35}
 .empty-title{font-family:'Syne',sans-serif;font-size:14px;font-weight:600;color:var(--text2);margin-bottom:.35rem}
 .empty-desc{font-size:12px;line-height:1.6}
 
-/* ── FILTERBAR ── */
+/* FILTERBAR */
 .filterbar{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1rem}
 .fchip{font-size:11px;font-weight:500;padding:4px 12px;border-radius:99px;border:1px solid var(--border2);background:var(--bg3);cursor:pointer;color:var(--text3);transition:all .15s}
-.fchip:hover{background:var(--bg4);color:var(--text)}
-.fchip.active{background:var(--accent);color:#FFF;border-color:var(--accent);font-weight:700}
+.fchip:hover{background:var(--bg4);color:var(--text)}.fchip.active{background:var(--accent);color:#FFF;border-color:var(--accent);font-weight:700}
 
-/* ── TOAST ── */
-.toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r-sm);padding:.75rem 1.25rem;font-size:13px;color:var(--text);z-index:2000;transform:translateY(80px);opacity:0;transition:all .3s;pointer-events:none;max-width:320px;box-shadow:0 4px 20px rgba(0,0,0,.1)}
+/* TOAST */
+.toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r-sm);padding:.75rem 1.25rem;font-size:13px;color:var(--text);z-index:3000;transform:translateY(80px);opacity:0;transition:all .3s;pointer-events:none;max-width:320px;box-shadow:0 4px 20px rgba(0,0,0,.1)}
 .toast.show{transform:translateY(0);opacity:1}
-.toast.success{border-left:3px solid var(--green)}
-.toast.error{border-left:3px solid var(--red)}
+.toast.success{border-left:3px solid var(--green)}.toast.error{border-left:3px solid var(--red)}
 
-/* ── LINE CHART ── */
+/* LINE CHART */
 .linechart-wrap{position:relative;width:100%;height:260px}
 
-/* ── COLOR PICKER ── */
-.color-opt{width:26px;height:26px;border-radius:6px;cursor:pointer;border:2px solid transparent;transition:border-color .1s}
-.color-opt:hover{border-color:rgba(0,0,0,.3)}
-.color-opt.sel{border-color:#1C1A17}
+/* CAT DOT */
+.cat-dot{width:8px;height:8px;border-radius:2px;display:inline-block;flex-shrink:0}
 
-/* ── CAT DOT ── */
-.cat-dot{width:8px;height:8px;border-radius:2px;display:inline-block}
+/* COLOR PICKER */
+.color-opt{width:26px;height:26px;border-radius:6px;cursor:pointer;border:2px solid transparent;transition:border-color .1s}
+.color-opt:hover{border-color:rgba(0,0,0,.3)}.color-opt.sel{border-color:#1C1A17}
+
+/* ── MODAL ITEM DETAIL (modelos) ── */
+.model-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin-bottom:1rem}
+.model-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r-sm);overflow:hidden;transition:border-color .15s;cursor:default}
+.model-card:hover{border-color:var(--border2)}
+.model-card.best{border-color:var(--green);border-width:2px}
+.model-img{width:100%;height:140px;object-fit:cover;background:var(--bg4);display:block}
+.model-img-placeholder{width:100%;height:140px;background:var(--bg4);display:flex;align-items:center;justify-content:center;font-size:32px;color:var(--text3)}
+.model-body{padding:.85rem}
+.model-name{font-size:13px;font-weight:600;color:var(--text);margin-bottom:2px}
+.model-brand{font-size:11px;color:var(--text3);margin-bottom:8px}
+.model-prices{margin-bottom:8px}
+.model-price-row{display:flex;justify-content:space-between;align-items:center;font-size:12px;padding:3px 0;border-bottom:1px solid var(--border)}
+.model-price-row:last-child{border-bottom:none}
+.model-price-loja{color:var(--text2);flex:1}
+.model-price-val{font-family:'Syne',sans-serif;font-weight:700;color:var(--accent)}
+.model-price-val.best-price{color:var(--green)}
+.model-footer{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:8px;padding-top:8px;border-top:1px solid var(--border)}
+.model-best-badge{font-size:9px;background:#D1FAE5;color:#065F46;padding:2px 7px;border-radius:99px;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+.model-actions{display:flex;gap:5px;margin-left:auto}
+
+/* CHART MINI em modal */
+.mini-chart-wrap{position:relative;width:100%;height:120px;margin-top:8px}
 </style>
 </head>
 <body>
 
 <!-- SYNC BAR -->
 <div class="sync-bar">
-  <div class="sync-bar-inner">
+  <div class="sync-inner">
     <div class="sync-status">
-      <div class="sync-dot" id="sync-dot"></div>
-      <span id="sync-label">Conectando ao Google Sheets...</span>
+      <div class="sync-dot loading" id="sync-dot"></div>
+      <span id="sync-label">Conectando...</span>
     </div>
-    <div class="sync-actions">
-      <span id="last-sync" style="font-size:11px;color:var(--text3)"></span>
+    <div style="display:flex;gap:6px;align-items:center">
+      <span style="font-size:11px;color:var(--text3)" id="last-sync"></span>
       <button class="btn btn-sm" onclick="syncAll()" id="btn-sync">↻ Sincronizar</button>
     </div>
   </div>
@@ -246,19 +248,16 @@ tr:hover td{background:var(--bg3)}
   <div class="header-inner">
     <div class="logo">
       <div class="logo-mark">M</div>
-      <div class="logo-text">
-        <h1>Nossa Casa</h1>
-        <p id="header-date"></p>
-      </div>
+      <div class="logo-text"><h1>Nossa Casa</h1><p id="header-date"></p></div>
     </div>
-    <div class="header-stats">
-      <div class="hstat"><div class="hstat-val" id="hs-total">R$ 0</div><div class="hstat-label">Estimado</div></div>
+    <div class="hstats">
+      <div><div class="hstat-val" id="hs-total">R$ 0</div><div class="hstat-label">Estimado</div></div>
       <div class="hstat-sep"></div>
-      <div class="hstat"><div class="hstat-val" id="hs-comp" style="color:var(--green)">R$ 0</div><div class="hstat-label">Comprado</div></div>
+      <div><div class="hstat-val" id="hs-comp" style="color:var(--green)">R$ 0</div><div class="hstat-label">Comprado</div></div>
       <div class="hstat-sep"></div>
-      <div class="hstat"><div class="hstat-val" id="hs-rest" style="color:var(--amber)">R$ 0</div><div class="hstat-label">Restante</div></div>
+      <div><div class="hstat-val" id="hs-rest" style="color:var(--amber)">R$ 0</div><div class="hstat-label">Restante</div></div>
       <div class="hstat-sep"></div>
-      <div class="hstat"><div class="hstat-val" id="hs-itens">0</div><div class="hstat-label">Itens</div></div>
+      <div><div class="hstat-val" id="hs-itens">0</div><div class="hstat-label">Itens</div></div>
     </div>
   </div>
 </header>
@@ -267,7 +266,7 @@ tr:hover td{background:var(--bg3)}
 <nav class="nav">
   <div class="nav-inner">
     <button class="nav-btn active" onclick="switchTab('visao',this)">Visão geral</button>
-    <button class="nav-btn" onclick="switchTab('itens',this)">Itens</button>
+    <button class="nav-btn" onclick="switchTab('itens',this)">Lista de compras</button>
     <button class="nav-btn" onclick="switchTab('prioridades',this)">Prioridades</button>
     <button class="nav-btn" onclick="switchTab('precos',this)">Preços</button>
     <button class="nav-btn" onclick="switchTab('analise',this)">Análise</button>
@@ -276,202 +275,196 @@ tr:hover td{background:var(--bg3)}
 
 <main class="main">
 
-  <!-- ═══ VISÃO GERAL ═══ -->
-  <div class="tab-content show" id="tab-visao">
-    <div class="grid-4" id="metrics"></div>
-    <div class="grid-2 section-gap">
-      <div class="card">
-        <div class="card-title">Orçamento por categoria</div>
-        <div id="cat-progs"></div>
-      </div>
-      <div class="card">
-        <div class="card-title">
-          <span id="pie-title">Distribuição por categoria</span>
-          <span id="pie-back-btn" style="display:none"><button class="btn btn-sm" onclick="drillBack()">← Voltar</button></span>
-        </div>
-        <div class="pie-breadcrumb" id="pie-breadcrumb" style="display:none"></div>
-        <div class="pie-wrap">
-          <div class="pie-canvas-wrap">
-            <canvas id="pieChart" role="img" aria-label="Distribuição do orçamento por categoria">Distribuição por categoria.</canvas>
-          </div>
-          <div class="pie-legend" id="pie-legend"></div>
-        </div>
-        <div id="pie-hint" style="font-size:10px;color:var(--text3);margin-top:.75rem;text-align:center">Clique numa fatia ou categoria para detalhar</div>
-      </div>
-    </div>
-    <div class="card section-gap">
-      <div class="card-title">Itens essenciais sem preço <span id="sem-preco-count" style="color:var(--red);font-family:'Syne',sans-serif;font-size:13px;font-weight:700"></span></div>
-      <div id="sem-preco-list"></div>
+<!-- ═══ VISÃO GERAL ═══ -->
+<div class="tab-content show" id="tab-visao">
+  <div class="grid-4" id="metrics"></div>
+  <div class="grid-2 section-gap">
+    <div class="card">
+      <div class="card-title">Orçamento por categoria</div>
+      <div id="cat-progs"></div>
     </div>
     <div class="card">
-      <div class="card-title">Oportunidades detectadas</div>
-      <div id="opps-list"></div>
-    </div>
-  </div>
-
-  <!-- ═══ ITENS ═══ -->
-  <div class="tab-content" id="tab-itens">
-    <div class="section-head section-gap">
-      <div class="section-title">Todos os itens</div>
-      <div style="display:flex;gap:8px;flex-wrap:wrap">
-        <button class="btn btn-sm" onclick="openModal('modal-item')">+ Novo item</button>
-        <button class="btn btn-sm" onclick="openModal('modal-cat')">+ Nova categoria</button>
-        <button class="btn btn-sm" onclick="openModal('modal-subcat')">+ Nova subcategoria</button>
-      </div>
-    </div>
-    <div class="filterbar" id="item-filters"></div>
-    <div class="table-wrap">
-      <table>
-        <thead><tr>
-          <th>Item</th><th>Categoria</th><th>Subcategoria</th><th>Marca / Modelo</th>
-          <th>Qtd</th><th>Último preço</th><th>Mín histórico</th><th>Necessidade</th><th>Status</th><th></th>
-        </tr></thead>
-        <tbody id="items-table-body"></tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- ═══ PRIORIDADES ═══ -->
-  <div class="tab-content" id="tab-prioridades">
-    <div class="section-head section-gap">
-      <div class="section-title">Arraste os cards para definir prioridade</div>
-      <div style="font-size:12px;color:var(--text3)">Segure e arraste • Salvo automaticamente no Sheets</div>
-    </div>
-    <div class="kanban" id="kanban-board"></div>
-  </div>
-
-  <!-- ═══ PREÇOS ═══ -->
-  <div class="tab-content" id="tab-precos">
-    <div class="section-head section-gap">
-      <div class="section-title">Registro de preços</div>
-      <button class="btn btn-accent" onclick="openModal('modal-preco')">+ Registrar preço</button>
-    </div>
-    <div class="grid-2 section-gap">
-      <div class="card" style="max-height:460px;overflow-y:auto">
-        <div class="card-title">Registros recentes</div>
-        <div id="price-log"></div>
-      </div>
-      <div class="card">
-        <div class="card-title">Mínimos históricos</div>
-        <div class="table-wrap" style="border:none">
-          <table style="min-width:0">
-            <thead><tr><th>Item</th><th>Mínimo</th><th>Loja</th><th>Data</th></tr></thead>
-            <tbody id="min-table"></tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-    <div class="card section-gap">
       <div class="card-title">
-        Evolução de preços
-        <select class="form-select" id="price-chart-select" style="width:220px;font-size:12px;padding:5px 10px" onchange="renderLineChart()">
-          <option value="">Selecione um item...</option>
-        </select>
+        <span id="pie-title">Distribuição por categoria</span>
+        <span id="pie-back-btn" style="display:none"><button class="btn btn-sm" onclick="drillBack()">← Voltar</button></span>
       </div>
-      <div class="linechart-wrap">
-        <canvas id="lineChart" role="img" aria-label="Evolução de preços do item selecionado">Gráfico de linha de preços.</canvas>
+      <div class="pie-breadcrumb" id="pie-breadcrumb" style="display:none"></div>
+      <div class="pie-wrap">
+        <div class="pie-canvas-wrap"><canvas id="pieChart" role="img" aria-label="Distribuição do orçamento por categoria">Distribuição por categoria.</canvas></div>
+        <div class="pie-legend" id="pie-legend"></div>
       </div>
+      <div id="pie-hint" style="font-size:10px;color:var(--text3);margin-top:.75rem;text-align:center">Clique numa fatia ou categoria para detalhar</div>
     </div>
   </div>
+  <div class="card section-gap">
+    <div class="card-title">Itens essenciais sem preço <span id="sem-preco-count" style="color:var(--red);font-family:'Syne',sans-serif;font-size:13px;font-weight:700"></span></div>
+    <div id="sem-preco-list"></div>
+  </div>
+  <div class="card">
+    <div class="card-title">Oportunidades detectadas</div>
+    <div id="opps-list"></div>
+  </div>
+</div>
 
-  <!-- ═══ ANÁLISE ═══ -->
-  <div class="tab-content" id="tab-analise">
-    <div class="grid-2 section-gap">
-      <div class="card">
-        <div class="card-title">Variação de preço por item</div>
-        <div id="variacao-list"></div>
-      </div>
-      <div class="card">
-        <div class="card-title">Resumo por status</div>
-        <div id="status-summary"></div>
-      </div>
+<!-- ═══ LISTA DE COMPRAS ═══ -->
+<div class="tab-content" id="tab-itens">
+  <div class="section-head section-gap">
+    <div class="section-title">Lista de compras</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn btn-sm" onclick="openModal('modal-item')">+ Novo item</button>
+      <button class="btn btn-sm" onclick="openModal('modal-cat')">+ Categoria</button>
+      <button class="btn btn-sm" onclick="openModal('modal-subcat')">+ Subcategoria</button>
+    </div>
+  </div>
+  <div class="filterbar" id="item-filters"></div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr>
+        <th>Item</th><th>Categoria</th><th>Modelos</th><th>Melhor preço</th>
+        <th>Necessidade</th><th>Status</th><th></th>
+      </tr></thead>
+      <tbody id="items-table-body"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══ PRIORIDADES ═══ -->
+<div class="tab-content" id="tab-prioridades">
+  <div class="section-head section-gap">
+    <div class="section-title">Arraste para definir prioridade</div>
+    <div style="font-size:12px;color:var(--text3)">Clique no card para ver e comparar modelos</div>
+  </div>
+  <div class="kanban" id="kanban-board"></div>
+</div>
+
+<!-- ═══ PREÇOS ═══ -->
+<div class="tab-content" id="tab-precos">
+  <div class="section-head section-gap">
+    <div class="section-title">Registro de preços</div>
+    <button class="btn btn-accent" onclick="openModal('modal-preco')">+ Registrar preço</button>
+  </div>
+  <div class="grid-2 section-gap">
+    <div class="card" style="max-height:460px;overflow-y:auto">
+      <div class="card-title">Registros recentes</div>
+      <div id="price-log"></div>
     </div>
     <div class="card">
-      <div class="card-title">Todas as oportunidades e alertas</div>
-      <div id="all-opps"></div>
+      <div class="card-title">Mínimos históricos</div>
+      <div class="table-wrap" style="border:none">
+        <table style="min-width:0">
+          <thead><tr><th>Modelo</th><th>Item</th><th>Mínimo</th><th>Loja</th></tr></thead>
+          <tbody id="min-table"></tbody>
+        </table>
+      </div>
     </div>
   </div>
+  <div class="card">
+    <div class="card-title">
+      Evolução de preços
+      <select class="form-select" id="price-chart-select" style="width:240px;font-size:12px;padding:5px 10px" onchange="renderLineChart()">
+        <option value="">Selecione um modelo...</option>
+      </select>
+    </div>
+    <div class="linechart-wrap"><canvas id="lineChart" role="img" aria-label="Evolução de preços">Gráfico.</canvas></div>
+  </div>
+</div>
+
+<!-- ═══ ANÁLISE ═══ -->
+<div class="tab-content" id="tab-analise">
+  <div class="grid-2 section-gap">
+    <div class="card">
+      <div class="card-title">Variação por modelo</div>
+      <div id="variacao-list"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Resumo por status</div>
+      <div id="status-summary"></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">Todas as oportunidades</div>
+    <div id="all-opps"></div>
+  </div>
+</div>
 
 </main>
-
 <div class="toast" id="toast"></div>
 
-<!-- ═══ MODAIS ═══ -->
+<!-- ═══════════ MODAIS ═══════════ -->
 
-<!-- Novo Item -->
-<div class="modal-overlay" id="modal-item">
-  <div class="modal">
-    <div class="modal-title">Novo item <button class="modal-close" onclick="closeModal('modal-item')">×</button></div>
-    <div class="form-group">
-      <label class="form-label">Nome do item *</label>
-      <input class="form-input" id="ni-nome" placeholder="Ex: Geladeira Frost Free 400L">
-    </div>
-    <div class="form-row">
-      <div class="form-group">
-        <label class="form-label">Categoria *</label>
-        <select class="form-select" id="ni-cat" onchange="updateSubcatSelect('ni-subcat','ni-cat')"><option value="">Selecione...</option></select>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Subcategoria</label>
-        <select class="form-select" id="ni-subcat"><option value="">Selecione a categoria primeiro</option></select>
+<!-- DETALHE DO ITEM (modelos) -->
+<div class="modal-overlay" id="modal-detail">
+  <div class="modal modal-wide">
+    <div class="modal-title">
+      <span id="detail-title">Item</span>
+      <div style="display:flex;gap:8px;align-items:center">
+        <button class="btn btn-sm" id="btn-add-model" onclick="openAddModel()">+ Modelo</button>
+        <button class="modal-close" onclick="closeModal('modal-detail')">×</button>
       </div>
     </div>
-    <div class="form-row">
-      <div class="form-group">
-        <label class="form-label">Marca</label>
-        <input class="form-input" id="ni-marca" placeholder="Ex: Electrolux">
-      </div>
-      <div class="form-group">
-        <label class="form-label">Modelo</label>
-        <input class="form-input" id="ni-modelo" placeholder="Ex: DF44S">
-      </div>
-    </div>
-    <div class="form-row">
-      <div class="form-group">
-        <label class="form-label">Quantidade</label>
-        <input class="form-input" id="ni-qtd" type="number" min="1" value="1">
-      </div>
-      <div class="form-group">
-        <label class="form-label">Valor estimado (R$)</label>
-        <input class="form-input" id="ni-est" type="number" min="0" step="0.01" placeholder="0.00">
-      </div>
-    </div>
-    <div class="form-row">
-      <div class="form-group">
-        <label class="form-label">Necessidade</label>
-        <select class="form-select" id="ni-nec"><option>Essencial</option><option>Desejável</option></select>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Prioridade</label>
-        <select class="form-select" id="ni-pri"><option>Alta</option><option selected>Média</option><option>Baixa</option></select>
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="form-label">Link / loja</label>
-      <input class="form-input" id="ni-link" placeholder="https://...">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Observações</label>
-      <textarea class="form-textarea" id="ni-obs" placeholder="Cores, especificações, anotações..."></textarea>
-    </div>
-    <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:1rem">
-      <button class="btn" onclick="closeModal('modal-item')">Cancelar</button>
-      <button class="btn btn-accent" id="btn-save-item" onclick="saveItem()">Salvar item</button>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1.25rem" id="detail-meta"></div>
+    <div class="model-grid" id="model-grid"></div>
+    <div id="model-empty" style="display:none">
+      <div class="empty"><div class="empty-icon">🔍</div><div class="empty-title">Nenhum modelo cadastrado</div><div class="empty-desc">Clique em "+ Modelo" para adicionar opções que você está pesquisando.</div></div>
     </div>
   </div>
 </div>
 
-<!-- Nova Categoria -->
+<!-- NOVO ITEM -->
+<div class="modal-overlay" id="modal-item">
+  <div class="modal">
+    <div class="modal-title">Novo item <button class="modal-close" onclick="closeModal('modal-item')">×</button></div>
+    <div class="form-group"><label class="form-label">Nome *</label><input class="form-input" id="ni-nome" placeholder="Ex: Geladeira"></div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Categoria *</label><select class="form-select" id="ni-cat" onchange="updateSubcatSelect('ni-subcat','ni-cat')"><option value="">Selecione...</option></select></div>
+      <div class="form-group"><label class="form-label">Subcategoria</label><select class="form-select" id="ni-subcat"><option value="">Selecione a categoria</option></select></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Quantidade</label><input class="form-input" id="ni-qtd" type="number" min="1" value="1"></div>
+      <div class="form-group"><label class="form-label">Valor estimado (R$)</label><input class="form-input" id="ni-est" type="number" min="0" step="0.01" placeholder="0.00"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Necessidade</label><select class="form-select" id="ni-nec"><option>Essencial</option><option>Desejável</option></select></div>
+      <div class="form-group"><label class="form-label">Prioridade</label><select class="form-select" id="ni-pri"><option>Alta</option><option selected>Média</option><option>Baixa</option></select></div>
+    </div>
+    <div class="form-group"><label class="form-label">Observações</label><textarea class="form-textarea" id="ni-obs" placeholder="Especificações, anotações..."></textarea></div>
+    <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:1rem">
+      <button class="btn" onclick="closeModal('modal-item')">Cancelar</button>
+      <button class="btn btn-accent" id="btn-save-item" onclick="saveItem()">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<!-- NOVO MODELO -->
+<div class="modal-overlay" id="modal-modelo">
+  <div class="modal">
+    <div class="modal-title" id="modal-modelo-title">Adicionar modelo <button class="modal-close" onclick="closeModal('modal-modelo')">×</button></div>
+    <input type="hidden" id="nm-itemId">
+    <div class="form-group"><label class="form-label">Nome do modelo *</label><input class="form-input" id="nm-nome" placeholder="Ex: Electrolux TF38S 320L Inox"></div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Marca</label><input class="form-input" id="nm-marca" placeholder="Ex: Electrolux"></div>
+      <div class="form-group"><label class="form-label">Modelo / código</label><input class="form-input" id="nm-modelo" placeholder="Ex: TF38S"></div>
+    </div>
+    <div class="form-group"><label class="form-label">Link da loja</label><input class="form-input" id="nm-link" placeholder="https://..."></div>
+    <div class="form-group"><label class="form-label">URL da imagem</label><input class="form-input" id="nm-imagem" placeholder="https://...jpg" oninput="previewImg(this)">
+      <div id="nm-img-preview" style="margin-top:8px;display:none"><img id="nm-img-el" style="height:80px;border-radius:6px;object-fit:cover;border:1px solid var(--border)"></div>
+    </div>
+    <div class="form-group"><label class="form-label">Observações</label><input class="form-input" id="nm-obs" placeholder="Características, diferenciais..."></div>
+    <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:1rem">
+      <button class="btn" onclick="closeModal('modal-modelo')">Cancelar</button>
+      <button class="btn btn-accent" id="btn-save-modelo" onclick="saveModelo()">Salvar modelo</button>
+    </div>
+  </div>
+</div>
+
+<!-- NOVA CATEGORIA -->
 <div class="modal-overlay" id="modal-cat">
   <div class="modal">
     <div class="modal-title">Nova categoria <button class="modal-close" onclick="closeModal('modal-cat')">×</button></div>
-    <div class="form-group">
-      <label class="form-label">Nome *</label>
-      <input class="form-input" id="nc-nome" placeholder="Ex: Escritório">
-    </div>
+    <div class="form-group"><label class="form-label">Nome *</label><input class="form-input" id="nc-nome" placeholder="Ex: Escritório"></div>
     <div class="form-group">
       <label class="form-label">Cor</label>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center" id="color-picker">
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
         <div class="color-opt sel" data-color="#C2501E" style="background:#C2501E" onclick="selectColor(this)"></div>
         <div class="color-opt" data-color="#2563EB" style="background:#2563EB" onclick="selectColor(this)"></div>
         <div class="color-opt" data-color="#7C3AED" style="background:#7C3AED" onclick="selectColor(this)"></div>
@@ -480,7 +473,6 @@ tr:hover td{background:var(--bg3)}
         <div class="color-opt" data-color="#BE185D" style="background:#BE185D" onclick="selectColor(this)"></div>
         <div class="color-opt" data-color="#15803D" style="background:#15803D" onclick="selectColor(this)"></div>
         <div class="color-opt" data-color="#1E40AF" style="background:#1E40AF" onclick="selectColor(this)"></div>
-        <div class="color-opt" data-color="#9D174D" style="background:#9D174D" onclick="selectColor(this)"></div>
         <input type="color" value="#C2501E" id="nc-cor-custom" style="width:26px;height:26px;border-radius:6px;border:1px solid var(--border2);cursor:pointer;padding:1px" onchange="selectedCatColor=this.value;document.querySelectorAll('.color-opt').forEach(x=>x.classList.remove('sel'))">
       </div>
       <input type="hidden" id="nc-cor" value="#C2501E">
@@ -492,18 +484,12 @@ tr:hover td{background:var(--bg3)}
   </div>
 </div>
 
-<!-- Nova Subcategoria -->
+<!-- NOVA SUBCATEGORIA -->
 <div class="modal-overlay" id="modal-subcat">
   <div class="modal">
     <div class="modal-title">Nova subcategoria <button class="modal-close" onclick="closeModal('modal-subcat')">×</button></div>
-    <div class="form-group">
-      <label class="form-label">Categoria pai *</label>
-      <select class="form-select" id="ns-cat"><option value="">Selecione...</option></select>
-    </div>
-    <div class="form-group">
-      <label class="form-label">Nome *</label>
-      <input class="form-input" id="ns-nome" placeholder="Ex: Eletrodomésticos">
-    </div>
+    <div class="form-group"><label class="form-label">Categoria pai *</label><select class="form-select" id="ns-cat"><option value="">Selecione...</option></select></div>
+    <div class="form-group"><label class="form-label">Nome *</label><input class="form-input" id="ns-nome" placeholder="Ex: Eletrodomésticos"></div>
     <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:1.5rem">
       <button class="btn" onclick="closeModal('modal-subcat')">Cancelar</button>
       <button class="btn btn-accent" id="btn-save-subcat" onclick="saveSubcat()">Salvar</button>
@@ -511,38 +497,23 @@ tr:hover td{background:var(--bg3)}
   </div>
 </div>
 
-<!-- Registrar Preço -->
+<!-- REGISTRAR PREÇO -->
 <div class="modal-overlay" id="modal-preco">
   <div class="modal">
     <div class="modal-title">Registrar preço <button class="modal-close" onclick="closeModal('modal-preco')">×</button></div>
-    <div class="form-group">
-      <label class="form-label">Item *</label>
-      <select class="form-select" id="rp-item"><option value="">Selecione...</option></select>
+    <div class="form-group"><label class="form-label">Item</label>
+      <select class="form-select" id="rp-item" onchange="updateModeloSelect()"><option value="">Selecione o item...</option></select></div>
+    <div class="form-group"><label class="form-label">Modelo *</label>
+      <select class="form-select" id="rp-modelo"><option value="">Selecione o item primeiro</option></select></div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Preço (R$) *</label><input class="form-input" id="rp-preco" type="number" min="0" step="0.01" placeholder="0.00"></div>
+      <div class="form-group"><label class="form-label">Data *</label><input class="form-input" id="rp-data" type="date"></div>
     </div>
     <div class="form-row">
-      <div class="form-group">
-        <label class="form-label">Preço (R$) *</label>
-        <input class="form-input" id="rp-preco" type="number" min="0" step="0.01" placeholder="0.00">
-      </div>
-      <div class="form-group">
-        <label class="form-label">Data *</label>
-        <input class="form-input" id="rp-data" type="date">
-      </div>
+      <div class="form-group"><label class="form-label">Loja</label><input class="form-input" id="rp-loja" placeholder="Ex: Magalu"></div>
+      <div class="form-group"><label class="form-label">Link</label><input class="form-input" id="rp-link" placeholder="https://..."></div>
     </div>
-    <div class="form-row">
-      <div class="form-group">
-        <label class="form-label">Loja</label>
-        <input class="form-input" id="rp-loja" placeholder="Ex: Magalu">
-      </div>
-      <div class="form-group">
-        <label class="form-label">Link da oferta</label>
-        <input class="form-input" id="rp-link" placeholder="https://...">
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="form-label">Observação</label>
-      <input class="form-input" id="rp-obs" placeholder="Ex: Black Friday, cupom...">
-    </div>
+    <div class="form-group"><label class="form-label">Observação</label><input class="form-input" id="rp-obs" placeholder="Ex: Black Friday..."></div>
     <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:1rem">
       <button class="btn" onclick="closeModal('modal-preco')">Cancelar</button>
       <button class="btn btn-accent" id="btn-save-preco" onclick="savePreco()">Registrar</button>
@@ -550,23 +521,17 @@ tr:hover td{background:var(--bg3)}
   </div>
 </div>
 
-<!-- Editar Item -->
+<!-- EDITAR ITEM -->
 <div class="modal-overlay" id="modal-status">
   <div class="modal">
     <div class="modal-title">Editar item <button class="modal-close" onclick="closeModal('modal-status')">×</button></div>
     <input type="hidden" id="es-id">
-    <div class="form-group">
-      <label class="form-label">Status</label>
-      <select class="form-select" id="es-status">
-        <option>Não comprado</option><option>Em pesquisa</option><option>Comprado</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label class="form-label">Valor estimado (R$)</label>
-      <input class="form-input" id="es-est" type="number" min="0" step="0.01">
-    </div>
+    <div class="form-group"><label class="form-label">Status</label>
+      <select class="form-select" id="es-status"><option>Não comprado</option><option>Em pesquisa</option><option>Comprado</option></select></div>
+    <div class="form-group"><label class="form-label">Valor estimado (R$)</label>
+      <input class="form-input" id="es-est" type="number" min="0" step="0.01"></div>
     <div style="display:flex;justify-content:space-between;gap:8px;margin-top:1rem">
-      <button class="btn" style="color:var(--red);border-color:rgba(153,27,27,.2)" onclick="deleteItem()">Excluir</button>
+      <button class="btn btn-danger" onclick="deleteItem()">Excluir</button>
       <div style="display:flex;gap:8px">
         <button class="btn" onclick="closeModal('modal-status')">Cancelar</button>
         <button class="btn btn-accent" id="btn-save-status" onclick="saveStatus()">Salvar</button>
@@ -577,281 +542,263 @@ tr:hover td{background:var(--bg3)}
 
 <script>
 // ══════════════════════════════════════════════════════
-//  CONFIGURAÇÃO — substitua os três valores abaixo
+//  CONFIGURAÇÃO
 // ══════════════════════════════════════════════════════
 const CONFIG = {
-  API_KEY:       'AIzaSyBzLikTWAgaBbzo3RnLwAzh94KVNen4vWc',
-  SHEET_ID:      '1aLEf1MXYKr_ifkqS8Br50gksCSzBh5t5m9VXkQmqDsA',
-  SCRIPT_URL:    'https://script.google.com/macros/s/AKfycbyqaClJVFglLiLTD8DG4M9iNnUEAIBu009w38ymu53TgxWS5a41gpzzLzqA4iN4tKpl-g/exec',
+  API_KEY:    'AIzaSyBzLikTWAgaBbzo3RnLwAzh94KVNen4vWc',
+  SHEET_ID:   '1aLEf1MXYKr_ifkqS8Br50gksCSzBh5t5m9VXkQmqDsA',
+  SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbyqaClJVFglLiLTD8DG4M9iNnUEAIBu009w38ymu53TgxWS5a41gpzzLzqA4iN4tKpl-g/exec',
 };
-
-// Nomes das abas na planilha (não altere sem mudar lá também)
-const ABAS = { cat:'categorias', sub:'subcategorias', itens:'itens', precos:'precos' };
+const ABAS = { cat:'categorias', sub:'subcategorias', itens:'itens', modelos:'modelos', precos:'precos' };
 
 // ══════════════════════════════════════════════════════
-//  STATE (cache local — sempre lido do Sheets)
+//  STATE
 // ══════════════════════════════════════════════════════
-let state = { categories:[], subcategories:[], items:[], prices:[] };
-let pieChart = null, lineChart = null, pieLevel = 'root';
-let selectedCatColor = '#C2501E', dragSrcId = null;
-let syncing = false;
+let state = { categories:[], subcategories:[], items:[], modelos:[], prices:[] };
+let pieChart=null, lineChart=null, pieLevel='root';
+let selectedCatColor='#C2501E', dragSrcId=null, syncing=false;
+let currentDetailItemId=null;
 
 // ── HELPERS ──────────────────────────────────────────
-const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2,6);
-const fmt = v => v!=null ? 'R$ '+Number(v).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2}) : '—';
-const fmtS = v => 'R$ '+Number(v).toLocaleString('pt-BR',{maximumFractionDigits:0});
-const fmtDate = d => { if(!d) return '—'; const [y,m,day]=d.split('-'); return `${day}/${m}/${y}`; };
-const getCat = id => state.categories.find(c=>c.id===id)||{nome:'—',cor:'#888'};
-const getSub = id => state.subcategories.find(s=>s.id===id)||{nome:'—'};
-const getItem = id => state.items.find(i=>i.id===id);
-const catColor = id => getCat(id).cor||'#888';
-const itemPrices = id => state.prices.filter(p=>p.itemId===id).sort((a,b)=>a.data.localeCompare(b.data));
-const itemLast = id => { const pp=itemPrices(id); return pp.length?pp[pp.length-1]:null; };
-const itemMin = id => { const pp=itemPrices(id); return pp.length?pp.reduce((m,p)=>p.preco<m.preco?p:m):null; };
-const totEst = () => state.items.reduce((a,i)=>{ const lp=itemLast(i.id); return a+(lp?lp.preco:i.est||0)*i.qtd; },0);
-const totComp = () => state.items.filter(i=>i.status==='Comprado').reduce((a,i)=>{ const lp=itemLast(i.id); return a+(lp?lp.preco:i.est||0)*i.qtd; },0);
+const uid = ()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+const fmt = v=>v!=null?'R$ '+Number(v).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2}):'—';
+const fmtS = v=>'R$ '+Number(v).toLocaleString('pt-BR',{maximumFractionDigits:0});
+const fmtDate = d=>{ if(!d)return'—'; const[y,m,day]=d.split('-'); return`${day}/${m}/${y}`; };
+const getCat = id=>state.categories.find(c=>c.id===id)||{nome:'—',cor:'#888'};
+const getSub = id=>state.subcategories.find(s=>s.id===id)||{nome:'—'};
+const getItem = id=>state.items.find(i=>i.id===id);
+const getModelo = id=>state.modelos.find(m=>m.id===id);
+const catColor = id=>getCat(id).cor||'#888';
+const itemModelos = itemId=>state.modelos.filter(m=>m.itemId===itemId);
+const modeloPrices = modeloId=>state.prices.filter(p=>p.modeloId===modeloId).sort((a,b)=>a.data.localeCompare(b.data));
+const modeloLast = modeloId=>{ const pp=modeloPrices(modeloId); return pp.length?pp[pp.length-1]:null; };
+const modeloMin = modeloId=>{ const pp=modeloPrices(modeloId); return pp.length?pp.reduce((m,p)=>p.preco<m.preco?p:m):null; };
+
+// Melhor preço atual de um item (menor último preço entre modelos)
+function itemBestPrice(itemId){
+  const ms=itemModelos(itemId);
+  if(!ms.length) return null;
+  const lasts=ms.map(m=>modeloLast(m.id)).filter(Boolean);
+  if(!lasts.length) return null;
+  return lasts.reduce((a,b)=>b.preco<a.preco?b:a);
+}
+// Valor para orçamento: se comprado → menor histórico geral; se não → est ou best price
+function itemValorOrc(item){
+  if(item.status==='Comprado'){
+    const ms=itemModelos(item.id);
+    const mins=ms.map(m=>modeloMin(m.id)).filter(Boolean);
+    if(mins.length) return Math.min(...mins.map(m=>m.preco));
+  }
+  const bp=itemBestPrice(item.id);
+  return bp?bp.preco:(item.est||0);
+}
+const totEst=()=>state.items.reduce((a,i)=>a+itemValorOrc(i)*i.qtd,0);
+const totComp=()=>state.items.filter(i=>i.status==='Comprado').reduce((a,i)=>a+itemValorOrc(i)*i.qtd,0);
 
 // ══════════════════════════════════════════════════════
 //  GOOGLE SHEETS — LEITURA
 // ══════════════════════════════════════════════════════
 async function fetchSheet(range){
-  const url = `https://sheets.googleapis.com/v4/spreadsheets/${CONFIG.SHEET_ID}/values/${range}?key=${CONFIG.API_KEY}`;
-  const r = await fetch(url);
-  if(!r.ok) throw new Error('Sheets read error '+r.status);
-  const d = await r.json();
-  return d.values||[];
+  const url=`https://sheets.googleapis.com/v4/spreadsheets/${CONFIG.SHEET_ID}/values/${range}?key=${CONFIG.API_KEY}`;
+  const r=await fetch(url); if(!r.ok) throw new Error('Sheets '+r.status);
+  return (await r.json()).values||[];
 }
-
 async function loadFromSheets(){
-  setSyncStatus('loading','Carregando dados...');
+  setSyncStatus('loading','Carregando...');
   try {
-    const [cats, subs, itens, precos] = await Promise.all([
-      fetchSheet(ABAS.cat),
-      fetchSheet(ABAS.sub),
-      fetchSheet(ABAS.itens),
-      fetchSheet(ABAS.precos),
+    const [cats,subs,itens,modelos,precos]=await Promise.all([
+      fetchSheet(ABAS.cat), fetchSheet(ABAS.sub), fetchSheet(ABAS.itens),
+      fetchSheet(ABAS.modelos), fetchSheet(ABAS.precos)
     ]);
-
-    state.categories = cats.slice(1).filter(r=>r[0]).map(r=>({
-      id:r[0], nome:r[1]||'', cor:r[2]||'#888'
+    state.categories=cats.slice(1).filter(r=>r[0]).map(r=>({id:r[0],nome:r[1]||'',cor:r[2]||'#888'}));
+    state.subcategories=subs.slice(1).filter(r=>r[0]).map(r=>({id:r[0],catId:r[1]||'',nome:r[2]||''}));
+    state.items=itens.slice(1).filter(r=>r[0]).map(r=>({
+      id:r[0],nome:r[1]||'',catId:r[2]||'',subcatId:r[3]||'',
+      qtd:Number(r[4])||1,est:Number(r[5])||0,
+      nec:r[6]||'Essencial',pri:r[7]||'Média',status:r[8]||'Não comprado',obs:r[9]||''
     }));
-    state.subcategories = subs.slice(1).filter(r=>r[0]).map(r=>({
-      id:r[0], catId:r[1]||'', nome:r[2]||''
+    state.modelos=modelos.slice(1).filter(r=>r[0]).map(r=>({
+      id:r[0],itemId:r[1]||'',nome:r[2]||'',marca:r[3]||'',modelo:r[4]||'',
+      link:r[5]||'',imagem:r[6]||'',obs:r[7]||''
     }));
-    state.items = itens.slice(1).filter(r=>r[0]).map(r=>({
-      id:r[0], nome:r[1]||'', catId:r[2]||'', subcatId:r[3]||'',
-      marca:r[4]||'', modelo:r[5]||'',
-      qtd:Number(r[6])||1, est:Number(r[7])||0,
-      nec:r[8]||'Essencial', pri:r[9]||'Média',
-      status:r[10]||'Não comprado', link:r[11]||'', obs:r[12]||''
+    state.prices=precos.slice(1).filter(r=>r[0]).map(r=>({
+      id:r[0],modeloId:r[1]||'',preco:Number(r[2])||0,
+      data:r[3]||'',loja:r[4]||'',link:r[5]||'',obs:r[6]||''
     }));
-    state.prices = precos.slice(1).filter(r=>r[0]).map(r=>({
-      id:r[0], itemId:r[1]||'', preco:Number(r[2])||0,
-      data:r[3]||'', loja:r[4]||'', link:r[5]||'', obs:r[6]||''
-    }));
-
     setSyncStatus('ok','Sincronizado · '+new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}));
     renderAll();
-  } catch(e) {
+  } catch(e){
     console.error(e);
     setSyncStatus('err','Erro ao conectar — verifique a chave de API');
   }
 }
 
 // ══════════════════════════════════════════════════════
-//  GOOGLE SHEETS — ESCRITA (via Apps Script)
+//  GOOGLE SHEETS — ESCRITA
 // ══════════════════════════════════════════════════════
-async function writeSheet(aba, action, data){
-  const body = JSON.stringify({ aba, action, ...data });
-  const r = await fetch(CONFIG.SCRIPT_URL, {
-    method:'POST',
-    body,
-    headers:{'Content-Type':'text/plain'} // evita CORS preflight
-  });
-  if(!r.ok) throw new Error('Script write error '+r.status);
+async function writeSheet(aba,action,data){
+  const r=await fetch(CONFIG.SCRIPT_URL,{method:'POST',body:JSON.stringify({aba,action,...data}),headers:{'Content-Type':'text/plain'}});
+  if(!r.ok) throw new Error('Script '+r.status);
   return r.json();
 }
+const appendRow=(aba,row)=>writeSheet(aba,'append',{row});
+const rewriteAba=(aba,header,rows)=>writeSheet(aba,'clear_and_write',{rows:[header,...rows]});
 
-async function appendRow(aba, row){
-  return writeSheet(aba, 'append', { row });
-}
-
-async function rewriteAba(aba, header, rows){
-  return writeSheet(aba, 'clear_and_write', { rows:[header,...rows] });
-}
-
-// ══════════════════════════════════════════════════════
-//  SYNC
-// ══════════════════════════════════════════════════════
 async function syncAll(){
-  if(syncing) return;
-  syncing=true;
+  if(syncing)return; syncing=true;
   document.getElementById('btn-sync').disabled=true;
   await loadFromSheets();
-  syncing=false;
-  document.getElementById('btn-sync').disabled=false;
+  syncing=false; document.getElementById('btn-sync').disabled=false;
 }
-
-function setSyncStatus(type, msg){
-  const dot = document.getElementById('sync-dot');
-  const lbl = document.getElementById('sync-label');
-  dot.className = 'sync-dot '+type;
-  lbl.textContent = msg;
-  if(type==='ok') document.getElementById('last-sync').textContent = '';
+function setSyncStatus(type,msg){
+  document.getElementById('sync-dot').className='sync-dot '+type;
+  document.getElementById('sync-label').textContent=msg;
 }
 
 // ══════════════════════════════════════════════════════
 //  RENDER ALL
 // ══════════════════════════════════════════════════════
 function renderAll(){
-  updateHeaderStats();
-  renderMetrics();
-  renderCatProgress();
-  renderPie(pieLevel);
-  renderSemPreco();
-  renderOpps();
-  renderItemsTable();
-  renderKanban();
-  renderPriceLog();
-  renderMinTable();
-  updatePriceChartSelect();
-  renderVariacao();
-  renderStatusSummary();
-  renderAllOpps();
-  populateSelects();
+  updateHeaderStats(); renderMetrics(); renderCatProgress(); renderPie(pieLevel);
+  renderSemPreco(); renderOpps(); renderItemsTable(); renderKanban();
+  renderPriceLog(); renderMinTable(); updatePriceChartSelect();
+  renderVariacao(); renderStatusSummary(); renderAllOpps(); populateSelects();
 }
 
 function updateHeaderStats(){
-  const total=totEst(), comp=totComp();
-  document.getElementById('hs-total').textContent = fmtS(total);
-  document.getElementById('hs-comp').textContent  = fmtS(comp);
-  document.getElementById('hs-rest').textContent  = fmtS(total-comp);
-  document.getElementById('hs-itens').textContent = state.items.length;
-  document.getElementById('header-date').textContent = new Date().toLocaleDateString('pt-BR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  const total=totEst(),comp=totComp();
+  document.getElementById('hs-total').textContent=fmtS(total);
+  document.getElementById('hs-comp').textContent=fmtS(comp);
+  document.getElementById('hs-rest').textContent=fmtS(total-comp);
+  document.getElementById('hs-itens').textContent=state.items.length;
+  document.getElementById('header-date').textContent=new Date().toLocaleDateString('pt-BR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
 }
 
 function renderMetrics(){
-  const total=totEst(), comp=totComp();
-  const pct=total>0?Math.round(comp/total*100):0;
+  const total=totEst(),comp=totComp(),pct=total>0?Math.round(comp/total*100):0;
   const alta=state.items.filter(i=>i.pri==='Alta'&&i.status!=='Comprado').length;
   document.getElementById('metrics').innerHTML=`
     <div class="metric"><div class="metric-accent" style="background:#1E40AF"></div>
-      <div class="metric-label">Total estimado</div>
-      <div class="metric-value" style="color:#1E40AF">${fmtS(total)}</div>
-      <div class="metric-sub">${state.items.length} itens</div></div>
+      <div class="metric-label">Total estimado</div><div class="metric-value" style="color:#1E40AF">${fmtS(total)}</div>
+      <div class="metric-sub">${state.items.length} itens · ${state.modelos.length} modelos</div></div>
     <div class="metric"><div class="metric-accent" style="background:var(--green)"></div>
-      <div class="metric-label">Comprado</div>
-      <div class="metric-value" style="color:var(--green)">${fmtS(comp)}</div>
+      <div class="metric-label">Comprado</div><div class="metric-value" style="color:var(--green)">${fmtS(comp)}</div>
       <div class="metric-sub">${state.items.filter(i=>i.status==='Comprado').length} itens</div></div>
     <div class="metric"><div class="metric-accent" style="background:var(--amber)"></div>
-      <div class="metric-label">Restante</div>
-      <div class="metric-value" style="color:var(--amber)">${fmtS(total-comp)}</div>
+      <div class="metric-label">Restante</div><div class="metric-value" style="color:var(--amber)">${fmtS(total-comp)}</div>
       <div class="metric-sub">${state.items.filter(i=>i.status!=='Comprado').length} itens</div></div>
     <div class="metric"><div class="metric-accent" style="background:var(--accent)"></div>
-      <div class="metric-label">Progresso</div>
-      <div class="metric-value" style="color:var(--accent)">${pct}%</div>
-      <div class="metric-sub">${alta} essencial(is) pendente(s)</div></div>`;
+      <div class="metric-label">Progresso</div><div class="metric-value" style="color:var(--accent)">${pct}%</div>
+      <div class="metric-sub">${alta} essencial(is) Alta pendente(s)</div></div>`;
 }
 
 function renderCatProgress(){
-  const total=totEst(), el=document.getElementById('cat-progs');
-  if(!state.categories.length){ el.innerHTML='<div class="empty"><div class="empty-icon">📂</div><div class="empty-title">Nenhuma categoria ainda</div><div class="empty-desc">Crie categorias na aba Itens</div></div>'; return; }
+  const total=totEst(),el=document.getElementById('cat-progs');
+  if(!state.categories.length){el.innerHTML='<div class="empty"><div class="empty-icon">📂</div><div class="empty-title">Nenhuma categoria</div></div>';return;}
   el.innerHTML=state.categories.map(cat=>{
-    const cT=state.items.filter(i=>i.catId===cat.id).reduce((a,i)=>{ const lp=itemLast(i.id); return a+(lp?lp.preco:i.est||0)*i.qtd; },0);
+    const cT=state.items.filter(i=>i.catId===cat.id).reduce((a,i)=>a+itemValorOrc(i)*i.qtd,0);
     const pct=total>0?Math.round(cT/total*100):0;
     return `<div class="prog-row"><div class="prog-meta"><strong>${cat.nome}</strong><span>${fmtS(cT)} · ${pct}%</span></div>
     <div class="prog-bg"><div class="prog-fill" style="width:${pct}%;background:${cat.cor}"></div></div></div>`;
   }).join('');
 }
 
+function shadeColor(hex,amt){
+  hex=hex.replace('#','');
+  let r=parseInt(hex.slice(0,2),16),g=parseInt(hex.slice(2,4),16),b=parseInt(hex.slice(4,6),16);
+  r=Math.max(0,Math.min(255,r+amt));g=Math.max(0,Math.min(255,g+amt));b=Math.max(0,Math.min(255,b+amt));
+  return '#'+[r,g,b].map(x=>x.toString(16).padStart(2,'0')).join('');
+}
+
 function renderPie(level){
-  pieLevel=level;
-  let labels=[],values=[],colors=[],drillIds=[];
+  pieLevel=level; let labels=[],values=[],colors=[],drillIds=[];
   if(level==='root'){
     state.categories.forEach(cat=>{
-      const cT=state.items.filter(i=>i.catId===cat.id).reduce((a,i)=>{ const lp=itemLast(i.id); return a+(lp?lp.preco:i.est||0)*i.qtd; },0);
-      if(cT>0){ labels.push(cat.nome); values.push(cT); colors.push(cat.cor); drillIds.push(cat.id); }
+      const cT=state.items.filter(i=>i.catId===cat.id).reduce((a,i)=>a+itemValorOrc(i)*i.qtd,0);
+      if(cT>0){labels.push(cat.nome);values.push(cT);colors.push(cat.cor);drillIds.push(cat.id);}
     });
     document.getElementById('pie-title').textContent='Distribuição por categoria';
     document.getElementById('pie-back-btn').style.display='none';
     document.getElementById('pie-breadcrumb').style.display='none';
-    document.getElementById('pie-hint').textContent='Clique numa fatia ou categoria para detalhar';
+    document.getElementById('pie-hint').textContent='Clique numa fatia para detalhar';
   } else {
     const cat=getCat(level);
     const subcats=state.subcategories.filter(s=>s.catId===level);
     subcats.forEach((sub,idx)=>{
-      const sT=state.items.filter(i=>i.subcatId===sub.id).reduce((a,i)=>{ const lp=itemLast(i.id); return a+(lp?lp.preco:i.est||0)*i.qtd; },0);
-      if(sT>0){ labels.push(sub.nome); values.push(sT); colors.push(shadeColor(cat.cor,idx*18-20)); drillIds.push(null); }
+      const sT=state.items.filter(i=>i.subcatId===sub.id).reduce((a,i)=>a+itemValorOrc(i)*i.qtd,0);
+      if(sT>0){labels.push(sub.nome);values.push(sT);colors.push(shadeColor(cat.cor,idx*18-20));drillIds.push(null);}
     });
     const semSub=state.items.filter(i=>i.catId===level&&!i.subcatId);
-    const semT=semSub.reduce((a,i)=>{ const lp=itemLast(i.id); return a+(lp?lp.preco:i.est||0)*i.qtd; },0);
+    const semT=semSub.reduce((a,i)=>a+itemValorOrc(i)*i.qtd,0);
     if(semT>0){
-      if(subcats.length){ labels.push('Outros'); values.push(semT); colors.push('#aaa'); drillIds.push(null); }
-      else { semSub.forEach((i,idx)=>{ const v=(itemLast(i.id)?.preco||i.est||0)*i.qtd; if(v>0){ labels.push(i.nome); values.push(v); colors.push(shadeColor(cat.cor,idx*18-20)); drillIds.push(null); } }); }
+      if(subcats.length){labels.push('Outros');values.push(semT);colors.push('#aaa');drillIds.push(null);}
+      else{semSub.forEach((i,idx)=>{const v=itemValorOrc(i)*i.qtd;if(v>0){labels.push(i.nome);values.push(v);colors.push(shadeColor(cat.cor,idx*18-20));drillIds.push(null);}});}
     }
     document.getElementById('pie-title').textContent=cat.nome;
     document.getElementById('pie-back-btn').style.display='block';
     document.getElementById('pie-breadcrumb').style.display='flex';
-    document.getElementById('pie-breadcrumb').innerHTML=`<button onclick="drillBack()">Todas as categorias</button> / ${cat.nome}`;
+    document.getElementById('pie-breadcrumb').innerHTML=`<button onclick="drillBack()">Todas</button> / ${cat.nome}`;
     document.getElementById('pie-hint').textContent='';
   }
-  if(!values.length){ if(pieChart){pieChart.destroy();pieChart=null;} document.getElementById('pie-legend').innerHTML='<div class="empty" style="padding:1.5rem"><div class="empty-desc">Sem dados suficientes</div></div>'; return; }
+  if(!values.length){if(pieChart){pieChart.destroy();pieChart=null;}document.getElementById('pie-legend').innerHTML='<div class="empty" style="padding:1rem"><div class="empty-desc">Sem dados</div></div>';return;}
   const total=values.reduce((a,b)=>a+b,0);
-  if(pieChart) pieChart.destroy();
+  if(pieChart)pieChart.destroy();
   pieChart=new Chart(document.getElementById('pieChart').getContext('2d'),{
     type:'doughnut',
     data:{labels,datasets:[{data:values,backgroundColor:colors,borderWidth:2,borderColor:'#FFF',hoverOffset:8}]},
     options:{responsive:true,maintainAspectRatio:false,cutout:'62%',
       plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' '+c.label+': '+fmtS(c.raw)+' ('+Math.round(c.raw/total*100)+'%)'}}},
-      onClick:(e,els)=>{ if(!els.length) return; const idx=els[0].index; if(drillIds[idx]&&level==='root') renderPie(drillIds[idx]); }
-    }
+      onClick:(e,els)=>{if(!els.length)return;const idx=els[0].index;if(drillIds[idx]&&level==='root')renderPie(drillIds[idx]);}}
   });
   document.getElementById('pie-legend').innerHTML=labels.map((l,i)=>{
-    const pct=Math.round(values[i]/total*100), drill=drillIds[i]&&level==='root';
+    const pct=Math.round(values[i]/total*100),drill=drillIds[i]&&level==='root';
     return `<div class="pie-legend-item" onclick="${drill?'renderPie(\''+drillIds[i]+'\')':''}">
       <div class="pie-legend-dot" style="background:${colors[i]}"></div>
       <div class="pie-legend-name">${l}${drill?' <span style="font-size:10px;color:var(--text3)">↗</span>':''}</div>
       <div class="pie-legend-val">${fmtS(values[i])}</div>
-      <div class="pie-legend-pct">${pct}%</div>
-    </div>`;
+      <div class="pie-legend-pct">${pct}%</div></div>`;
   }).join('');
 }
-function drillBack(){ renderPie('root'); }
-function shadeColor(hex,amt){ hex=hex.replace('#',''); let r=parseInt(hex.slice(0,2),16),g=parseInt(hex.slice(2,4),16),b=parseInt(hex.slice(4,6),16); r=Math.max(0,Math.min(255,r+amt));g=Math.max(0,Math.min(255,g+amt));b=Math.max(0,Math.min(255,b+amt)); return '#'+[r,g,b].map(x=>x.toString(16).padStart(2,'0')).join(''); }
+function drillBack(){renderPie('root');}
 
 function renderSemPreco(){
-  const itens=state.items.filter(i=>i.nec==='Essencial'&&!itemLast(i.id));
+  const itens=state.items.filter(i=>i.nec==='Essencial'&&i.status!=='Comprado'&&!itemBestPrice(i.id)&&!itemModelos(i.id).length);
   document.getElementById('sem-preco-count').textContent=itens.length||'';
   const el=document.getElementById('sem-preco-list');
-  if(!itens.length){ el.innerHTML='<div style="font-size:12px;color:var(--green)">Todos os itens essenciais têm preço registrado.</div>'; return; }
+  if(!itens.length){el.innerHTML='<div style="font-size:12px;color:var(--green)">Todos os itens essenciais têm modelos cadastrados.</div>';return;}
   el.innerHTML=itens.map(i=>`<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)">
     <div class="cat-dot" style="background:${catColor(i.catId)}"></div>
     <div style="flex:1;font-size:13px;color:var(--text)">${i.nome}</div>
     <div style="font-size:11px;color:var(--text3)">${getCat(i.catId).nome}</div>
-    <button class="btn btn-sm" onclick="openModalPreco('${i.id}')">Registrar</button>
+    <button class="btn btn-sm" onclick="openDetail('${i.id}')">+ Modelo</button>
   </div>`).join('');
 }
-function openModalPreco(id){ closeModal('modal-item'); openModal('modal-preco'); setTimeout(()=>document.getElementById('rp-item').value=id,50); }
 
 function calcOpps(){
   const opps=[];
-  state.items.filter(i=>i.status!=='Comprado').forEach(i=>{
-    const pp=itemPrices(i.id); if(pp.length<2) return;
-    const last=pp[pp.length-1].preco, prev=pp[pp.length-2].preco;
-    const min=Math.min(...pp.map(p=>p.preco)), avg=pp.reduce((a,p)=>a+p.preco,0)/pp.length;
+  state.modelos.forEach(m=>{
+    const item=getItem(m.itemId); if(!item||item.status==='Comprado') return;
+    const pp=modeloPrices(m.id); if(pp.length<2)return;
+    const last=pp[pp.length-1].preco,prev=pp[pp.length-2].preco;
+    const min=Math.min(...pp.map(p=>p.preco)),avg=pp.reduce((a,p)=>a+p.preco,0)/pp.length;
     const vPct=(last-prev)/prev*100;
-    if(vPct<=-5) opps.push({type:'queda',item:i,last,msg:`Queda de ${Math.abs(vPct).toFixed(1)}% no último registro`});
-    if(last===min&&pp.length>=2) opps.push({type:'minimo',item:i,last,msg:`Menor preço histórico: ${fmt(last)}`});
-    if(last>avg*1.15) opps.push({type:'alto',item:i,last,msg:`Preço ${((last/avg-1)*100).toFixed(0)}% acima da média — aguardar`});
+    if(vPct<=-5) opps.push({type:'queda',item,modelo:m,last,msg:`${m.nome}: queda de ${Math.abs(vPct).toFixed(1)}%`});
+    if(last===min&&pp.length>=2) opps.push({type:'minimo',item,modelo:m,last,msg:`${m.nome}: menor preço histórico`});
+    if(last>avg*1.15) opps.push({type:'alto',item,modelo:m,last,msg:`${m.nome}: ${((last/avg-1)*100).toFixed(0)}% acima da média — aguardar`});
   });
   return opps;
 }
 function renderOpps(){
-  const opps=calcOpps().slice(0,4), el=document.getElementById('opps-list');
-  if(!opps.length){ el.innerHTML='<div class="empty"><div class="empty-icon">📊</div><div class="empty-title">Sem oportunidades ainda</div><div class="empty-desc">Registre preços ao longo do tempo para detectar quedas e mínimos históricos.</div></div>'; return; }
-  el.innerHTML=opps.map(o=>`<div class="opp ${o.type==='alto'?'opp-warn':''}"><div class="opp-head"><div><div class="opp-title">${o.item.nome}</div><div class="opp-desc">${o.msg}</div></div><div class="opp-save ${o.type==='alto'?'warn':''}">${fmt(o.last)}</div></div></div>`).join('');
+  const opps=calcOpps().slice(0,5),el=document.getElementById('opps-list');
+  if(!opps.length){el.innerHTML='<div class="empty"><div class="empty-icon">📊</div><div class="empty-title">Sem oportunidades ainda</div><div class="empty-desc">Registre preços ao longo do tempo para detectar quedas e mínimos.</div></div>';return;}
+  el.innerHTML=opps.map(o=>`<div class="opp ${o.type==='alto'?'opp-warn':''}">
+    <div class="opp-head">
+      <div><div class="opp-title">${o.item.nome}</div><div class="opp-desc">${o.msg}</div></div>
+      <div class="opp-save ${o.type==='alto'?'warn':''}">${fmt(o.last)}</div>
+    </div></div>`).join('');
 }
 
+// ── ITEMS TABLE ──────────────────────────────────────
 let itemFilter='Todos';
 function renderItemsTable(){
   const chips=['Todos','Alta','Média','Baixa','Comprado','Em pesquisa','Não comprado'];
@@ -859,71 +806,176 @@ function renderItemsTable(){
   let d=itemFilter==='Todos'?state.items:state.items.filter(i=>i.pri===itemFilter||i.status===itemFilter);
   const stC={Comprado:'b-comprado','Em pesquisa':'b-pesquisa','Não comprado':'b-nao'};
   const tb=document.getElementById('items-table-body');
-  if(!d.length){ tb.innerHTML=`<tr><td colspan="10"><div class="empty" style="padding:2rem"><div class="empty-icon">📦</div><div class="empty-title">Nenhum item</div><div class="empty-desc">Adicione itens pelo botão acima</div></div></td></tr>`; return; }
+  if(!d.length){tb.innerHTML=`<tr><td colspan="7"><div class="empty" style="padding:2rem"><div class="empty-icon">📦</div><div class="empty-title">Nenhum item</div></div></td></tr>`;return;}
   tb.innerHTML=d.map(i=>{
-    const lp=itemLast(i.id), mp=itemMin(i.id);
-    return `<tr>
-      <td><div class="td-name">${i.nome}</div><div class="td-id">${[i.marca,i.modelo].filter(Boolean).join(' ')}</div></td>
+    const ms=itemModelos(i.id); const bp=itemBestPrice(i.id);
+    return `<tr style="cursor:pointer" onclick="openDetail('${i.id}')">
+      <td><div class="td-main">${i.nome}</div><div class="td-sub">${getCat(i.catId).nome}${i.subcatId?' · '+getSub(i.subcatId).nome:''}</div></td>
       <td><span style="display:flex;align-items:center;gap:6px"><div class="cat-dot" style="background:${catColor(i.catId)}"></div>${getCat(i.catId).nome}</span></td>
-      <td style="font-size:12px;color:var(--text3)">${i.subcatId?getSub(i.subcatId).nome:'—'}</td>
-      <td style="font-size:12px;color:var(--text2)">${[i.marca,i.modelo].filter(Boolean).join(' · ')||'—'}</td>
-      <td style="text-align:center">${i.qtd}</td>
-      <td class="td-price">${lp?fmt(lp.preco):'<span style="color:var(--text3)">—</span>'}</td>
-      <td style="font-size:12px;color:var(--green)">${mp?fmt(mp.preco):'—'}</td>
+      <td>${ms.length?`<span class="badge b-modelos">${ms.length} modelo${ms.length>1?'s':''}</span>`:'<span style="color:var(--text3);font-size:12px">—</span>'}</td>
+      <td class="td-price">${bp?fmt(bp.preco):(i.est?fmt(i.est):'<span style="color:var(--text3)">—</span>')}</td>
       <td><span class="badge ${i.nec==='Essencial'?'b-essencial':'b-desejavel'}">${i.nec}</span></td>
       <td><span class="badge ${stC[i.status]||'b-nao'}">${i.status||'Não comprado'}</span></td>
-      <td><button class="btn btn-icon btn-sm" onclick="openEditItem('${i.id}')">✎</button></td>
+      <td onclick="event.stopPropagation()"><button class="btn btn-icon btn-sm" onclick="openEditItem('${i.id}')">✎</button></td>
     </tr>`;
   }).join('');
 }
-function setItemFilter(f){ itemFilter=f; renderItemsTable(); }
+function setItemFilter(f){itemFilter=f;renderItemsTable();}
 
+// ── KANBAN ───────────────────────────────────────────
 function renderKanban(){
   const cols=[{pri:'Alta',cls:'col-alta'},{pri:'Média',cls:'col-media'},{pri:'Baixa',cls:'col-baixa'}];
   document.getElementById('kanban-board').innerHTML=cols.map(col=>{
     const cI=state.items.filter(i=>i.pri===col.pri);
     return `<div class="kanban-col ${col.cls}" ondragover="kDragOver(event,this)" ondrop="kDrop(event,'${col.pri}')">
       <div class="kanban-col-title">${col.pri} prioridade <span style="opacity:.5">${cI.length}</span></div>
-      ${cI.map(i=>`<div class="kcard" draggable="true" data-id="${i.id}" ondragstart="kDragStart(event,'${i.id}')" ondragend="kDragEnd()">
-        <div class="kcard-hint">⠿</div>
-        <div class="kcard-name">${i.nome}</div>
-        <div class="kcard-meta">
-          <span class="kcard-cat" style="background:${catColor(i.catId)}18;color:${catColor(i.catId)}">${getCat(i.catId).nome}</span>
-          <span class="kcard-price">${(()=>{ const lp=itemLast(i.id); return lp?fmt(lp.preco):(i.est?fmt(i.est):'—'); })()}</span>
-          <span class="badge ${i.nec==='Essencial'?'b-essencial':'b-desejavel'}" style="font-size:9px">${i.nec}</span>
-        </div>
-      </div>`).join('')}
+      ${cI.map(i=>{
+        const ms=itemModelos(i.id); const bp=itemBestPrice(i.id);
+        const stC={Comprado:'b-comprado','Em pesquisa':'b-pesquisa','Não comprado':'b-nao'};
+        return `<div class="kcard" draggable="true" data-id="${i.id}"
+          ondragstart="kDragStart(event,'${i.id}')" ondragend="kDragEnd()"
+          onclick="openDetail('${i.id}')">
+          <div class="kcard-top">
+            <div class="kcard-name">${i.nome}</div>
+            <div class="kcard-hint">⠿</div>
+          </div>
+          <div class="kcard-meta">
+            <span class="kcard-cat" style="background:${catColor(i.catId)}18;color:${catColor(i.catId)}">${getCat(i.catId).nome}</span>
+            <span class="badge ${i.nec==='Essencial'?'b-essencial':'b-desejavel'}" style="font-size:9px">${i.nec}</span>
+            <span class="badge ${stC[i.status]||'b-nao'}" style="font-size:9px">${i.status||'Não comprado'}</span>
+          </div>
+          <div class="kcard-footer">
+            <span class="kcard-price">${bp?fmt(bp.preco):(i.est?fmt(i.est):'Sem preço')}</span>
+            ${ms.length?`<span class="kcard-models">${ms.length} modelo${ms.length>1?'s':''}</span>`:'<span style="font-size:10px;color:var(--text3)">Sem modelos</span>'}
+          </div>
+        </div>`;
+      }).join('')}
       ${!cI.length?'<div style="text-align:center;padding:1.5rem 0;font-size:11px;color:var(--text3)">Solte itens aqui</div>':''}
     </div>`;
   }).join('');
 }
-function kDragStart(e,id){ dragSrcId=id; setTimeout(()=>{ const el=document.querySelector(`[data-id="${id}"]`); if(el) el.classList.add('dragging'); },0); }
-function kDragEnd(){ document.querySelectorAll('.kcard').forEach(c=>c.classList.remove('dragging')); document.querySelectorAll('.kanban-col').forEach(c=>c.classList.remove('drag-over')); }
-function kDragOver(e,col){ e.preventDefault(); document.querySelectorAll('.kanban-col').forEach(c=>c.classList.remove('drag-over')); col.classList.add('drag-over'); }
+function kDragStart(e,id){dragSrcId=id;setTimeout(()=>{const el=document.querySelector(`[data-id="${id}"]`);if(el)el.classList.add('dragging');},0);}
+function kDragEnd(){document.querySelectorAll('.kcard').forEach(c=>c.classList.remove('dragging'));document.querySelectorAll('.kanban-col').forEach(c=>c.classList.remove('drag-over'));}
+function kDragOver(e,col){e.preventDefault();document.querySelectorAll('.kanban-col').forEach(c=>c.classList.remove('drag-over'));col.classList.add('drag-over');}
 function kDrop(e,pri){
   e.preventDefault();
-  if(!dragSrcId) return;
+  if(!dragSrcId)return;
   const item=getItem(dragSrcId);
-  if(item&&item.pri!==pri){
-    item.pri=pri;
-    updateItemInSheets(item);
-    renderKanban(); renderItemsTable();
-    showToast('Prioridade → '+pri,'success');
-  }
+  if(item&&item.pri!==pri){item.pri=pri;updateItemInSheets(item);renderKanban();renderItemsTable();showToast('Prioridade → '+pri,'success');}
   dragSrcId=null;
 }
 
+// ── MODAL DETALHE DO ITEM ────────────────────────────
+function openDetail(itemId){
+  const item=getItem(itemId); if(!item)return;
+  currentDetailItemId=itemId;
+  document.getElementById('detail-title').textContent=item.nome;
+  document.getElementById('btn-add-model').onclick=openAddModel;
+  const stC={Comprado:'b-comprado','Em pesquisa':'b-pesquisa','Não comprado':'b-nao'};
+  document.getElementById('detail-meta').innerHTML=`
+    <span class="badge ${item.nec==='Essencial'?'b-essencial':'b-desejavel'}">${item.nec}</span>
+    <span class="badge ${item.pri==='Alta'?'b-alta':item.pri==='Média'?'b-media':'b-baixa'}">${item.pri} prioridade</span>
+    <span class="badge ${stC[item.status]||'b-nao'}">${item.status}</span>
+    <span style="font-size:12px;color:var(--text3)"><span class="cat-dot" style="background:${catColor(item.catId)};display:inline-block;vertical-align:middle;margin-right:4px"></span>${getCat(item.catId).nome}</span>
+    <button class="btn btn-sm" onclick="openEditItem('${item.id}');closeModal('modal-detail')" style="margin-left:auto">✎ Editar item</button>`;
+  renderModelGrid(itemId);
+  openModal('modal-detail');
+}
+
+function renderModelGrid(itemId){
+  const ms=itemModelos(itemId);
+  const grid=document.getElementById('model-grid');
+  const empty=document.getElementById('model-empty');
+  if(!ms.length){grid.style.display='none';empty.style.display='block';return;}
+  grid.style.display='grid'; empty.style.display='none';
+
+  // encontra menor preço atual entre todos os modelos
+  const lasts=ms.map(m=>({m,lp:modeloLast(m.id)})).filter(x=>x.lp);
+  const bestModeloId=lasts.length?lasts.reduce((a,b)=>b.lp.preco<a.lp.preco?b:a).m.id:null;
+
+  grid.innerHTML=ms.map(m=>{
+    const pp=modeloPrices(m.id);
+    const lp=modeloLast(m.id); const mp=modeloMin(m.id);
+    const isBest=m.id===bestModeloId;
+    // últimos 3 registros de preço
+    const recentPrices=pp.slice(-4);
+    return `<div class="model-card${isBest?' best':''}">
+      ${m.imagem
+        ?`<img class="model-img" src="${m.imagem}" alt="${m.nome}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
+        :''}
+      <div class="model-img-placeholder" style="${m.imagem?'display:none':''}">🛍️</div>
+      <div class="model-body">
+        <div class="model-name">${m.nome}</div>
+        <div class="model-brand">${[m.marca,m.modelo].filter(Boolean).join(' · ')||'—'}</div>
+        ${recentPrices.length?`<div class="model-prices">
+          ${recentPrices.map((p,idx)=>{
+            const isMin=mp&&p.preco===mp.preco&&p.id===mp.id;
+            return `<div class="model-price-row">
+              <span class="model-price-loja">${p.loja||'—'} <span style="opacity:.6;font-size:10px">${fmtDate(p.data)}</span></span>
+              <span class="model-price-val${isBest&&idx===recentPrices.length-1?' best-price':''}">${fmt(p.preco)}${isMin?' <span style="font-size:9px;color:#065F46">★</span>':''}</span>
+            </div>`;
+          }).join('')}
+        </div>`:'<div style="font-size:12px;color:var(--text3);margin-bottom:8px">Nenhum preço registrado</div>'}
+        <div class="model-footer">
+          ${isBest?'<span class="model-best-badge">Melhor preço</span>':''}
+          <div class="model-actions">
+            ${m.link?`<a href="${m.link}" target="_blank" class="btn btn-sm" onclick="event.stopPropagation()">🔗 Ver</a>`:''}
+            <button class="btn btn-sm" onclick="openRegPrecoModelo('${m.id}');event.stopPropagation()">+ Preço</button>
+            <button class="btn btn-icon btn-sm" title="Excluir modelo" onclick="deleteModelo('${m.id}');event.stopPropagation()">✕</button>
+          </div>
+        </div>
+        ${m.obs?`<div style="font-size:11px;color:var(--text3);margin-top:6px;padding-top:6px;border-top:1px solid var(--border)">${m.obs}</div>`:''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function openAddModel(){
+  if(!currentDetailItemId)return;
+  const item=getItem(currentDetailItemId);
+  document.getElementById('modal-modelo-title').innerHTML=`Adicionar modelo — ${item?item.nome:''} <button class="modal-close" onclick="closeModal('modal-modelo')">×</button>`;
+  document.getElementById('nm-itemId').value=currentDetailItemId;
+  ['nm-nome','nm-marca','nm-modelo','nm-link','nm-imagem','nm-obs'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('nm-img-preview').style.display='none';
+  openModal('modal-modelo');
+}
+
+function previewImg(input){
+  const url=input.value.trim();
+  const preview=document.getElementById('nm-img-preview');
+  const img=document.getElementById('nm-img-el');
+  if(url){preview.style.display='block';img.src=url;}
+  else{preview.style.display='none';}
+}
+
+function openRegPrecoModelo(modeloId){
+  const m=getModelo(modeloId); if(!m)return;
+  const item=getItem(m.itemId);
+  closeModal('modal-detail');
+  openModal('modal-preco');
+  setTimeout(()=>{
+    document.getElementById('rp-item').value=m.itemId;
+    updateModeloSelect();
+    setTimeout(()=>{document.getElementById('rp-modelo').value=modeloId;},50);
+  },50);
+}
+
+// ── PRICE LOG ────────────────────────────────────────
 function renderPriceLog(){
   const el=document.getElementById('price-log');
   const sorted=[...state.prices].sort((a,b)=>b.data.localeCompare(a.data)).slice(0,40);
-  if(!sorted.length){ el.innerHTML='<div class="empty"><div class="empty-icon">💰</div><div class="empty-title">Nenhum preço registrado</div><div class="empty-desc">Use "+ Registrar preço" para começar</div></div>'; return; }
+  if(!sorted.length){el.innerHTML='<div class="empty"><div class="empty-icon">💰</div><div class="empty-title">Nenhum preço</div><div class="empty-desc">Use "+ Registrar preço" para começar</div></div>';return;}
   el.innerHTML=sorted.map(p=>{
-    const item=getItem(p.itemId), mp=itemMin(p.itemId);
+    const m=getModelo(p.modeloId); const item=m?getItem(m.itemId):null;
+    const mp=modeloMin(p.modeloId);
     const isMin=mp&&p.preco===mp.preco&&p.id===mp.id;
-    const pp=itemPrices(p.itemId);
+    const pp=modeloPrices(p.modeloId);
     const isMax=pp.length>1&&p.preco===Math.max(...pp.map(x=>x.preco));
     return `<div class="price-item">
-      <div><div class="pi-name">${item?item.nome:p.itemId}</div><div class="pi-meta">${p.loja||'—'} · ${fmtDate(p.data)}${p.obs?' · '+p.obs:''}</div></div>
+      <div>
+        <div class="pi-name">${item?item.nome:'—'} <span style="font-weight:400;color:var(--text3)">· ${m?m.nome:'?'}</span></div>
+        <div class="pi-meta">${p.loja||'—'} · ${fmtDate(p.data)}${p.obs?' · '+p.obs:''}</div>
+      </div>
       <div style="display:flex;align-items:center;gap:8px">
         ${isMin?'<span class="pi-badge pi-min">Mínimo</span>':''}
         ${isMax&&!isMin?'<span class="pi-badge pi-high">Máximo</span>':''}
@@ -935,25 +987,35 @@ function renderPriceLog(){
 
 function renderMinTable(){
   const tb=document.getElementById('min-table');
-  const rows=state.items.map(i=>({item:i,min:itemMin(i.id)})).filter(r=>r.min).sort((a,b)=>a.min.preco-b.min.preco);
-  if(!rows.length){ tb.innerHTML='<tr><td colspan="4" style="text-align:center;color:var(--text3);font-size:12px;padding:1.5rem">Sem histórico ainda</td></tr>'; return; }
-  tb.innerHTML=rows.map(r=>`<tr><td class="td-name" style="font-size:12px">${r.item.nome}</td><td class="td-price" style="font-size:13px">${fmt(r.min.preco)}</td><td style="font-size:11px;color:var(--text3)">${r.min.loja||'—'}</td><td style="font-size:11px;color:var(--text3)">${fmtDate(r.min.data)}</td></tr>`).join('');
+  const rows=state.modelos.map(m=>({m,item:getItem(m.itemId),min:modeloMin(m.id)})).filter(r=>r.min).sort((a,b)=>a.min.preco-b.min.preco);
+  if(!rows.length){tb.innerHTML='<tr><td colspan="4" style="text-align:center;color:var(--text3);font-size:12px;padding:1.5rem">Sem histórico</td></tr>';return;}
+  tb.innerHTML=rows.map(r=>`<tr>
+    <td class="td-main" style="font-size:12px">${r.m.nome}</td>
+    <td style="font-size:11px;color:var(--text3)">${r.item?r.item.nome:'—'}</td>
+    <td class="td-price" style="font-size:13px">${fmt(r.min.preco)}</td>
+    <td style="font-size:11px;color:var(--text3)">${r.min.loja||'—'}</td>
+  </tr>`).join('');
 }
 
 function updatePriceChartSelect(){
-  const sel=document.getElementById('price-chart-select'), cur=sel.value;
-  sel.innerHTML='<option value="">Selecione um item...</option>'+state.items.filter(i=>itemPrices(i.id).length>0).map(i=>`<option value="${i.id}">${i.nome}</option>`).join('');
-  if(cur) sel.value=cur;
+  const sel=document.getElementById('price-chart-select'),cur=sel.value;
+  sel.innerHTML='<option value="">Selecione um modelo...</option>'+
+    state.modelos.filter(m=>modeloPrices(m.id).length>0).map(m=>{
+      const item=getItem(m.itemId);
+      return `<option value="${m.id}">${item?item.nome+' — ':''} ${m.nome}</option>`;
+    }).join('');
+  if(cur)sel.value=cur;
 }
 function renderLineChart(){
   const id=document.getElementById('price-chart-select').value;
   if(lineChart){lineChart.destroy();lineChart=null;}
-  if(!id) return;
-  const pp=itemPrices(id); if(!pp.length) return;
-  const item=getItem(id), col=catColor(item.catId);
+  if(!id)return;
+  const m=getModelo(id); if(!m)return;
+  const pp=modeloPrices(id); if(!pp.length)return;
+  const item=getItem(m.itemId); const col=item?catColor(item.catId):'#A0783A';
   lineChart=new Chart(document.getElementById('lineChart'),{
     type:'line',
-    data:{labels:pp.map(p=>fmtDate(p.data)),datasets:[{label:item.nome,data:pp.map(p=>p.preco),borderColor:col,backgroundColor:col+'20',tension:.35,pointRadius:5,pointBackgroundColor:col,fill:true}]},
+    data:{labels:pp.map(p=>fmtDate(p.data)),datasets:[{label:m.nome,data:pp.map(p=>p.preco),borderColor:col,backgroundColor:col+'20',tension:.35,pointRadius:5,pointBackgroundColor:col,fill:true}]},
     options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
       scales:{x:{grid:{color:'rgba(0,0,0,.04)'},ticks:{color:'#9E9B95',font:{size:11}}},
               y:{grid:{color:'rgba(0,0,0,.04)'},ticks:{color:'#9E9B95',font:{size:11},callback:v=>'R$'+v.toLocaleString('pt-BR',{maximumFractionDigits:0})}}}}
@@ -962,18 +1024,24 @@ function renderLineChart(){
 
 function renderVariacao(){
   const el=document.getElementById('variacao-list');
-  const rows=state.items.map(i=>{ const pp=itemPrices(i.id); if(pp.length<2) return null; const f=pp[0].preco,l=pp[pp.length-1].preco; return {i,f,l,v:(l-f)/f*100,n:pp.length,min:Math.min(...pp.map(p=>p.preco)),max:Math.max(...pp.map(p=>p.preco))}; }).filter(Boolean).sort((a,b)=>a.v-b.v);
-  if(!rows.length){ el.innerHTML='<div class="empty"><div class="empty-desc">Registre preços ao longo do tempo.</div></div>'; return; }
+  const rows=state.modelos.map(m=>{
+    const pp=modeloPrices(m.id); if(pp.length<2)return null;
+    const f=pp[0].preco,l=pp[pp.length-1].preco,item=getItem(m.itemId);
+    return {m,item,f,l,v:(l-f)/f*100,n:pp.length,min:Math.min(...pp.map(p=>p.preco)),max:Math.max(...pp.map(p=>p.preco))};
+  }).filter(Boolean).sort((a,b)=>a.v-b.v);
+  if(!rows.length){el.innerHTML='<div class="empty"><div class="empty-desc">Registre preços ao longo do tempo.</div></div>';return;}
   el.innerHTML=rows.map(r=>`<div style="display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--border)">
-    <div style="flex:1"><div style="font-size:13px;font-weight:500;color:var(--text)">${r.i.nome}</div><div style="font-size:10px;color:var(--text3)">${r.n} registros · mín ${fmt(r.min)} · máx ${fmt(r.max)}</div></div>
+    <div style="flex:1">
+      <div style="font-size:13px;font-weight:500;color:var(--text)">${r.item?r.item.nome+' ':''}· ${r.m.nome}</div>
+      <div style="font-size:10px;color:var(--text3)">${r.n} registros · mín ${fmt(r.min)} · máx ${fmt(r.max)}</div>
+    </div>
     <div style="font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:${r.v<0?'var(--green)':'var(--red)'}">${r.v<0?'↓':'↑'} ${Math.abs(r.v).toFixed(1)}%</div>
   </div>`).join('');
 }
-
 function renderStatusSummary(){
   const el=document.getElementById('status-summary');
   const byS={Comprado:0,'Em pesquisa':0,'Não comprado':0};
-  state.items.forEach(i=>{ byS[i.status||'Não comprado']=(byS[i.status||'Não comprado']||0)+1; });
+  state.items.forEach(i=>{byS[i.status||'Não comprado']=(byS[i.status||'Não comprado']||0)+1;});
   const stC={Comprado:'b-comprado','Em pesquisa':'b-pesquisa','Não comprado':'b-nao'};
   el.innerHTML=Object.entries(byS).map(([s,n])=>{
     const pct=state.items.length>0?Math.round(n/state.items.length*100):0;
@@ -984,11 +1052,14 @@ function renderStatusSummary(){
     </div>`;
   }).join('');
 }
-
 function renderAllOpps(){
-  const opps=calcOpps(), el=document.getElementById('all-opps');
-  if(!opps.length){ el.innerHTML='<div class="empty"><div class="empty-desc">Sem análise disponível. Registre preços ao longo do tempo.</div></div>'; return; }
-  el.innerHTML=opps.map(o=>`<div class="opp ${o.type==='alto'?'opp-warn':''}"><div class="opp-head"><div><div class="opp-title">${o.item.nome}</div><div class="opp-desc">${o.msg}</div></div><div class="opp-save ${o.type==='alto'?'warn':''}">${fmt(o.last)}</div></div></div>`).join('');
+  const opps=calcOpps(),el=document.getElementById('all-opps');
+  if(!opps.length){el.innerHTML='<div class="empty"><div class="empty-desc">Registre preços ao longo do tempo.</div></div>';return;}
+  el.innerHTML=opps.map(o=>`<div class="opp ${o.type==='alto'?'opp-warn':''}">
+    <div class="opp-head">
+      <div><div class="opp-title">${o.item.nome} — ${o.modelo.nome}</div><div class="opp-desc">${o.msg}</div></div>
+      <div class="opp-save ${o.type==='alto'?'warn':''}">${fmt(o.last)}</div>
+    </div></div>`).join('');
 }
 
 // ══════════════════════════════════════════════════════
@@ -996,14 +1067,20 @@ function renderAllOpps(){
 // ══════════════════════════════════════════════════════
 function populateSelects(){
   const catOpts=state.categories.map(c=>`<option value="${c.id}">${c.nome}</option>`).join('');
-  ['ni-cat','ns-cat'].forEach(id=>{ const el=document.getElementById(id); if(el) el.innerHTML='<option value="">Selecione...</option>'+catOpts; });
+  ['ni-cat','ns-cat'].forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML='<option value="">Selecione...</option>'+catOpts;});
   const rp=document.getElementById('rp-item');
-  if(rp) rp.innerHTML='<option value="">Selecione...</option>'+state.items.map(i=>`<option value="${i.id}">${i.nome}</option>`).join('');
+  if(rp)rp.innerHTML='<option value="">Selecione o item...</option>'+state.items.map(i=>`<option value="${i.id}">${i.nome}</option>`).join('');
 }
 function updateSubcatSelect(tid,sid){
   const catId=document.getElementById(sid).value;
-  const subs=state.subcategories.filter(s=>s.catId===catId);
-  document.getElementById(tid).innerHTML='<option value="">Nenhuma</option>'+subs.map(s=>`<option value="${s.id}">${s.nome}</option>`).join('');
+  document.getElementById(tid).innerHTML='<option value="">Nenhuma</option>'+state.subcategories.filter(s=>s.catId===catId).map(s=>`<option value="${s.id}">${s.nome}</option>`).join('');
+}
+function updateModeloSelect(){
+  const itemId=document.getElementById('rp-item').value;
+  const ms=state.modelos.filter(m=>m.itemId===itemId);
+  document.getElementById('rp-modelo').innerHTML=ms.length
+    ?'<option value="">Selecione...</option>'+ms.map(m=>`<option value="${m.id}">${m.nome}</option>`).join('')
+    :'<option value="">Nenhum modelo cadastrado</option>';
 }
 
 // ══════════════════════════════════════════════════════
@@ -1011,182 +1088,189 @@ function updateSubcatSelect(tid,sid){
 // ══════════════════════════════════════════════════════
 function openModal(id){
   populateSelects();
-  if(id==='modal-preco') document.getElementById('rp-data').value=new Date().toISOString().split('T')[0];
+  if(id==='modal-preco')document.getElementById('rp-data').value=new Date().toISOString().split('T')[0];
   document.getElementById(id).classList.add('open');
 }
-function closeModal(id){ document.getElementById(id).classList.remove('open'); }
-document.querySelectorAll('.modal-overlay').forEach(m=>m.addEventListener('click',e=>{ if(e.target===m) m.classList.remove('open'); }));
-
+function closeModal(id){document.getElementById(id).classList.remove('open');}
+document.querySelectorAll('.modal-overlay').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('open');}));
 function selectColor(el){
   document.querySelectorAll('.color-opt').forEach(x=>x.classList.remove('sel'));
-  el.classList.add('sel');
-  selectedCatColor=el.dataset.color;
+  el.classList.add('sel'); selectedCatColor=el.dataset.color;
   document.getElementById('nc-cor').value=el.dataset.color;
 }
-
 function setBtnLoading(id,loading,label='Salvar'){
-  const b=document.getElementById(id); if(!b) return;
-  b.disabled=loading; b.textContent=loading?'Salvando...':label;
+  const b=document.getElementById(id);if(!b)return;
+  b.disabled=loading;b.textContent=loading?'Salvando...':label;
 }
 
 // ── SAVE CATEGORY ────────────────────────────────────
 async function saveCategory(){
   const nome=document.getElementById('nc-nome').value.trim();
-  if(!nome){ showToast('Informe o nome','error'); return; }
+  if(!nome){showToast('Informe o nome','error');return;}
   const cor=document.getElementById('nc-cor').value||selectedCatColor;
-  const id=uid();
-  setBtnLoading('btn-save-cat',true);
-  try {
-    // Linha: id | nome | cor
-    await appendRow(ABAS.cat,[id,nome,cor]);
-    state.categories.push({id,nome,cor});
-    renderAll(); closeModal('modal-cat');
-    document.getElementById('nc-nome').value='';
-    showToast('Categoria "'+nome+'" criada','success');
-  } catch(e){ showToast('Erro ao salvar no Sheets','error'); console.error(e); }
+  const id=uid(); setBtnLoading('btn-save-cat',true);
+  try{await appendRow(ABAS.cat,[id,nome,cor]);state.categories.push({id,nome,cor});renderAll();closeModal('modal-cat');document.getElementById('nc-nome').value='';showToast('"'+nome+'" criada','success');}
+  catch(e){showToast('Erro ao salvar','error');console.error(e);}
   setBtnLoading('btn-save-cat',false,'Salvar');
 }
 
 // ── SAVE SUBCAT ──────────────────────────────────────
 async function saveSubcat(){
-  const catId=document.getElementById('ns-cat').value, nome=document.getElementById('ns-nome').value.trim();
-  if(!catId||!nome){ showToast('Preencha todos os campos','error'); return; }
-  const id=uid();
-  setBtnLoading('btn-save-subcat',true);
-  try {
-    await appendRow(ABAS.sub,[id,catId,nome]);
-    state.subcategories.push({id,catId,nome});
-    renderAll(); closeModal('modal-subcat');
-    document.getElementById('ns-nome').value='';
-    showToast('Subcategoria criada','success');
-  } catch(e){ showToast('Erro ao salvar','error'); console.error(e); }
+  const catId=document.getElementById('ns-cat').value,nome=document.getElementById('ns-nome').value.trim();
+  if(!catId||!nome){showToast('Preencha todos os campos','error');return;}
+  const id=uid(); setBtnLoading('btn-save-subcat',true);
+  try{await appendRow(ABAS.sub,[id,catId,nome]);state.subcategories.push({id,catId,nome});renderAll();closeModal('modal-subcat');document.getElementById('ns-nome').value='';showToast('Subcategoria criada','success');}
+  catch(e){showToast('Erro ao salvar','error');console.error(e);}
   setBtnLoading('btn-save-subcat',false,'Salvar');
 }
 
 // ── SAVE ITEM ─────────────────────────────────────────
 async function saveItem(){
   const nome=document.getElementById('ni-nome').value.trim();
-  if(!nome){ showToast('Informe o nome','error'); return; }
+  if(!nome){showToast('Informe o nome','error');return;}
   const catId=document.getElementById('ni-cat').value;
-  if(!catId){ showToast('Selecione uma categoria','error'); return; }
-  const item={
-    id:uid(), nome, catId,
-    subcatId:document.getElementById('ni-subcat').value||'',
-    marca:document.getElementById('ni-marca').value.trim(),
-    modelo:document.getElementById('ni-modelo').value.trim(),
+  if(!catId){showToast('Selecione uma categoria','error');return;}
+  const item={id:uid(),nome,catId,subcatId:document.getElementById('ni-subcat').value||'',
     qtd:parseInt(document.getElementById('ni-qtd').value)||1,
     est:parseFloat(document.getElementById('ni-est').value)||0,
-    nec:document.getElementById('ni-nec').value,
-    pri:document.getElementById('ni-pri').value,
-    status:'Não comprado',
-    link:document.getElementById('ni-link').value.trim(),
-    obs:document.getElementById('ni-obs').value.trim(),
-  };
+    nec:document.getElementById('ni-nec').value,pri:document.getElementById('ni-pri').value,
+    status:'Não comprado',obs:document.getElementById('ni-obs').value.trim()};
   setBtnLoading('btn-save-item',true);
-  try {
-    // Linha: id|nome|catId|subcatId|marca|modelo|qtd|est|nec|pri|status|link|obs
-    await appendRow(ABAS.itens,[item.id,item.nome,item.catId,item.subcatId,item.marca,item.modelo,item.qtd,item.est,item.nec,item.pri,item.status,item.link,item.obs]);
-    state.items.push(item);
-    renderAll(); closeModal('modal-item');
-    ['ni-nome','ni-marca','ni-modelo','ni-est','ni-link','ni-obs'].forEach(id=>document.getElementById(id).value='');
-    document.getElementById('ni-qtd').value=1;
+  try{
+    await appendRow(ABAS.itens,[item.id,item.nome,item.catId,item.subcatId,item.qtd,item.est,item.nec,item.pri,item.status,item.obs]);
+    state.items.push(item);renderAll();closeModal('modal-item');
+    ['ni-nome','ni-obs'].forEach(id=>document.getElementById(id).value='');
+    document.getElementById('ni-qtd').value=1;document.getElementById('ni-est').value='';
     showToast('"'+nome+'" adicionado','success');
-  } catch(e){ showToast('Erro ao salvar','error'); console.error(e); }
-  setBtnLoading('btn-save-item',false,'Salvar item');
+  }catch(e){showToast('Erro ao salvar','error');console.error(e);}
+  setBtnLoading('btn-save-item',false,'Salvar');
+}
+
+// ── SAVE MODELO ───────────────────────────────────────
+async function saveModelo(){
+  const itemId=document.getElementById('nm-itemId').value;
+  const nome=document.getElementById('nm-nome').value.trim();
+  if(!nome){showToast('Informe o nome do modelo','error');return;}
+  const modelo={id:uid(),itemId,nome,
+    marca:document.getElementById('nm-marca').value.trim(),
+    modelo:document.getElementById('nm-modelo').value.trim(),
+    link:document.getElementById('nm-link').value.trim(),
+    imagem:document.getElementById('nm-imagem').value.trim(),
+    obs:document.getElementById('nm-obs').value.trim()};
+  setBtnLoading('btn-save-modelo',true);
+  try{
+    await appendRow(ABAS.modelos,[modelo.id,modelo.itemId,modelo.nome,modelo.marca,modelo.modelo,modelo.link,modelo.imagem,modelo.obs]);
+    state.modelos.push(modelo);
+    closeModal('modal-modelo');
+    renderModelGrid(itemId);renderAll();
+    showToast('"'+nome+'" adicionado','success');
+  }catch(e){showToast('Erro ao salvar','error');console.error(e);}
+  setBtnLoading('btn-save-modelo',false,'Salvar modelo');
+}
+
+// ── DELETE MODELO ─────────────────────────────────────
+async function deleteModelo(id){
+  if(!confirm('Remover este modelo e seu histórico de preços?'))return;
+  const m=getModelo(id); if(!m)return;
+  const hdr=['id','itemId','nome','marca','modelo','link','imagem','obs'];
+  const rows=state.modelos.filter(x=>x.id!==id).map(x=>[x.id,x.itemId,x.nome,x.marca,x.modelo,x.link,x.imagem,x.obs]);
+  const ph=['id','modeloId','preco','data','loja','link','obs'];
+  const pr=state.prices.filter(p=>p.modeloId!==id).map(p=>[p.id,p.modeloId,p.preco,p.data,p.loja,p.link,p.obs]);
+  try{
+    await rewriteAba(ABAS.modelos,hdr,rows);
+    await rewriteAba(ABAS.precos,ph,pr);
+    state.modelos=state.modelos.filter(x=>x.id!==id);
+    state.prices=state.prices.filter(p=>p.modeloId!==id);
+    renderModelGrid(m.itemId);renderAll();
+    showToast('Modelo removido','success');
+  }catch(e){showToast('Erro ao remover','error');console.error(e);}
 }
 
 // ── SAVE PREÇO ────────────────────────────────────────
 async function savePreco(){
-  const itemId=document.getElementById('rp-item').value;
+  const modeloId=document.getElementById('rp-modelo').value;
   const preco=parseFloat(document.getElementById('rp-preco').value);
   const data=document.getElementById('rp-data').value;
-  if(!itemId){ showToast('Selecione um item','error'); return; }
-  if(!preco||preco<=0){ showToast('Informe o preço','error'); return; }
-  if(!data){ showToast('Informe a data','error'); return; }
-  const entry={
-    id:uid(), itemId, preco, data,
+  if(!modeloId){showToast('Selecione um modelo','error');return;}
+  if(!preco||preco<=0){showToast('Informe o preço','error');return;}
+  if(!data){showToast('Informe a data','error');return;}
+  const entry={id:uid(),modeloId,preco,data,
     loja:document.getElementById('rp-loja').value.trim(),
     link:document.getElementById('rp-link').value.trim(),
-    obs:document.getElementById('rp-obs').value.trim(),
-  };
+    obs:document.getElementById('rp-obs').value.trim()};
   setBtnLoading('btn-save-preco',true);
-  try {
-    await appendRow(ABAS.precos,[entry.id,entry.itemId,entry.preco,entry.data,entry.loja,entry.link,entry.obs]);
-    state.prices.push(entry);
-    renderAll(); closeModal('modal-preco');
+  try{
+    await appendRow(ABAS.precos,[entry.id,entry.modeloId,entry.preco,entry.data,entry.loja,entry.link,entry.obs]);
+    state.prices.push(entry);renderAll();closeModal('modal-preco');
     ['rp-preco','rp-loja','rp-link','rp-obs'].forEach(id=>document.getElementById(id).value='');
-    const item=getItem(itemId);
-    showToast('Preço registrado'+(item?' para "'+item.nome+'"':''),'success');
-  } catch(e){ showToast('Erro ao salvar','error'); console.error(e); }
+    const m=getModelo(modeloId);
+    showToast('Preço registrado'+(m?' para "'+m.nome+'"':''),'success');
+  }catch(e){showToast('Erro ao salvar','error');console.error(e);}
   setBtnLoading('btn-save-preco',false,'Registrar');
 }
 
-// ── EDIT ITEM ─────────────────────────────────────────
+// ── EDIT / DELETE ITEM ────────────────────────────────
 function openEditItem(id){
-  const item=getItem(id); if(!item) return;
+  const item=getItem(id);if(!item)return;
   document.getElementById('es-id').value=id;
   document.getElementById('es-status').value=item.status||'Não comprado';
   document.getElementById('es-est').value=item.est||'';
   openModal('modal-status');
 }
 async function saveStatus(){
-  const id=document.getElementById('es-id').value, item=getItem(id); if(!item) return;
+  const id=document.getElementById('es-id').value,item=getItem(id);if(!item)return;
   item.status=document.getElementById('es-status').value;
-  const est=parseFloat(document.getElementById('es-est').value); if(est>0) item.est=est;
+  const est=parseFloat(document.getElementById('es-est').value);if(est>0)item.est=est;
   setBtnLoading('btn-save-status',true);
-  try {
-    await updateItemInSheets(item);
-    renderAll(); closeModal('modal-status');
-    showToast('Item atualizado','success');
-  } catch(e){ showToast('Erro ao salvar','error'); console.error(e); }
+  try{await updateItemInSheets(item);renderAll();closeModal('modal-status');showToast('Item atualizado','success');}
+  catch(e){showToast('Erro ao salvar','error');console.error(e);}
   setBtnLoading('btn-save-status',false,'Salvar');
 }
 async function deleteItem(){
   const id=document.getElementById('es-id').value;
-  if(!confirm('Remover este item e todo o histórico de preços?')) return;
-  try {
-    // Reescreve a aba itens sem este item
-    const header=['id','nome','catId','subcatId','marca','modelo','qtd','est','nec','pri','status','link','obs'];
-    const rows=state.items.filter(i=>i.id!==id).map(i=>[i.id,i.nome,i.catId,i.subcatId||'',i.marca,i.modelo,i.qtd,i.est,i.nec,i.pri,i.status,i.link,i.obs]);
-    await rewriteAba(ABAS.itens,header,rows);
-    // Reescreve precos sem os deste item
-    const ph=['id','itemId','preco','data','loja','link','obs'];
-    const pr=state.prices.filter(p=>p.itemId!==id).map(p=>[p.id,p.itemId,p.preco,p.data,p.loja,p.link,p.obs]);
-    await rewriteAba(ABAS.precos,ph,pr);
+  if(!confirm('Remover este item, todos os modelos e histórico de preços?'))return;
+  const modelIds=state.modelos.filter(m=>m.itemId===id).map(m=>m.id);
+  const hdrI=['id','nome','catId','subcatId','qtd','est','nec','pri','status','obs'];
+  const rowsI=state.items.filter(i=>i.id!==id).map(i=>[i.id,i.nome,i.catId,i.subcatId||'',i.qtd,i.est,i.nec,i.pri,i.status,i.obs]);
+  const hdrM=['id','itemId','nome','marca','modelo','link','imagem','obs'];
+  const rowsM=state.modelos.filter(m=>m.itemId!==id).map(m=>[m.id,m.itemId,m.nome,m.marca,m.modelo,m.link,m.imagem,m.obs]);
+  const hdrP=['id','modeloId','preco','data','loja','link','obs'];
+  const rowsP=state.prices.filter(p=>!modelIds.includes(p.modeloId)).map(p=>[p.id,p.modeloId,p.preco,p.data,p.loja,p.link,p.obs]);
+  try{
+    await rewriteAba(ABAS.itens,hdrI,rowsI);
+    await rewriteAba(ABAS.modelos,hdrM,rowsM);
+    await rewriteAba(ABAS.precos,hdrP,rowsP);
     state.items=state.items.filter(i=>i.id!==id);
-    state.prices=state.prices.filter(p=>p.itemId!==id);
-    renderAll(); closeModal('modal-status');
-    showToast('Item removido','success');
-  } catch(e){ showToast('Erro ao remover','error'); console.error(e); }
+    state.modelos=state.modelos.filter(m=>m.itemId!==id);
+    state.prices=state.prices.filter(p=>!modelIds.includes(p.modeloId));
+    renderAll();closeModal('modal-status');showToast('Item removido','success');
+  }catch(e){showToast('Erro ao remover','error');console.error(e);}
 }
 async function updateItemInSheets(item){
-  const header=['id','nome','catId','subcatId','marca','modelo','qtd','est','nec','pri','status','link','obs'];
-  const rows=state.items.map(i=>[i.id,i.nome,i.catId,i.subcatId||'',i.marca,i.modelo,i.qtd,i.est,i.nec,i.pri,i.status,i.link,i.obs]);
-  await rewriteAba(ABAS.itens,header,rows);
+  const hdr=['id','nome','catId','subcatId','qtd','est','nec','pri','status','obs'];
+  const rows=state.items.map(i=>[i.id,i.nome,i.catId,i.subcatId||'',i.qtd,i.est,i.nec,i.pri,i.status,i.obs]);
+  await rewriteAba(ABAS.itens,hdr,rows);
 }
 
 // ── TABS ─────────────────────────────────────────────
 function switchTab(id,btn){
   document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('show'));
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
-  document.getElementById('tab-'+id).classList.add('show');
-  btn.classList.add('active');
-  if(id==='precos') setTimeout(renderLineChart,50);
+  document.getElementById('tab-'+id).classList.add('show');btn.classList.add('active');
+  if(id==='precos')setTimeout(renderLineChart,50);
 }
 
 // ── TOAST ─────────────────────────────────────────────
 function showToast(msg,type='success'){
-  const t=document.getElementById('toast');
-  t.textContent=msg; t.className='toast '+type+' show';
+  const t=document.getElementById('toast');t.textContent=msg;t.className='toast '+type+' show';
   setTimeout(()=>t.className='toast',3000);
 }
 
 // ══════════════════════════════════════════════════════
-//  INIT — carrega do Sheets ao abrir
+//  INIT
 // ══════════════════════════════════════════════════════
 syncAll();
-// Auto-sync a cada 2 minutos
-setInterval(()=>{ if(!syncing) loadFromSheets(); }, 2*60*1000);
+setInterval(()=>{if(!syncing)loadFromSheets();},2*60*1000);
 </script>
 </body>
 </html>
