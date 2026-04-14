@@ -226,6 +226,100 @@ tr:hover td{background:var(--bg3)}
 
 /* CHART MINI em modal */
 .mini-chart-wrap{position:relative;width:100%;height:120px;margin-top:8px}
+
+/* ── BOTTOM NAV ── */
+.bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;height:var(--nav-h);background:var(--bg2);border-top:1px solid var(--border);z-index:200;padding:0 4px}
+.bottom-nav-inner{display:flex;height:100%}
+.bnav-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border:none;background:none;cursor:pointer;color:var(--text3);font-family:'Syne',sans-serif;font-size:9px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;transition:color .15s;padding:0;min-width:0}
+.bnav-btn.active{color:var(--accent)}
+.bnav-icon{font-size:20px;line-height:1}
+
+/* ── ITEM CARDS (mobile list) ── */
+.item-card-list{display:none}
+.item-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r-sm);padding:.9rem 1rem;margin-bottom:8px;cursor:pointer;transition:border-color .15s;display:flex;align-items:center;gap:12px;-webkit-tap-highlight-color:transparent}
+.item-card:active{background:var(--bg3)}
+.item-card-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0}
+.item-card-body{flex:1;min-width:0}
+.item-card-name{font-size:14px;font-weight:600;color:var(--text);margin-bottom:3px}
+.item-card-meta{font-size:11px;color:var(--text3);display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.item-card-right{display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0}
+.item-card-price{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:var(--accent)}
+.item-card-chevron{color:var(--text3);font-size:18px;line-height:1}
+
+/* ══ DESKTOP 768px+ ══ */
+@media(min-width:768px){
+  :root{--nav-h:0px}
+  .bottom-nav{display:none !important}
+  .nav{display:block !important}
+  .main{padding:2rem 2.5rem 5rem}
+  .sync-bar{padding:.45rem 2.5rem}
+  .header{padding:1.4rem 2.5rem}
+  .nav-inner{padding:0 2.5rem}
+  .grid-4{grid-template-columns:repeat(4,1fr)}
+  .grid-2{grid-template-columns:1fr 1fr}
+  .kanban{grid-template-columns:repeat(3,1fr)}
+  .item-card-list{display:none !important}
+  .table-wrap.desktop-table{display:block !important}
+  .modal{padding:1.75rem;border-radius:var(--r);max-width:600px}
+  .modal-wide{max-width:800px}
+  .modal-overlay{align-items:center;padding:1rem}
+  .modal-overlay .modal{transform:translateY(16px);border-radius:var(--r)}
+  .modal-overlay.open .modal{transform:translateY(0)}
+  .form-input,.form-select{font-size:13px}
+  .form-row{grid-template-columns:1fr 1fr}
+  .toast{bottom:1.5rem;right:1.5rem;left:auto;max-width:320px}
+  .filterbar{flex-wrap:wrap}
+  .section-head{flex-direction:row;align-items:center}
+  .section-head > div{width:auto}
+  .section-head > div .btn{flex:none}
+  #price-chart-select{width:240px !important}
+  .card-title{flex-direction:row}
+  .linechart-wrap{height:260px}
+  #tab-prioridades .section-head > div:last-child{display:block}
+}
+
+/* ══ MOBILE max 767px ══ */
+@media(max-width:767px){
+  :root{--nav-h:58px}
+  .nav{display:none}
+  .bottom-nav{display:block}
+  .main{padding:.9rem .9rem calc(var(--nav-h) + .75rem)}
+  .hstat-sep{display:none}
+  .hstats{gap:.9rem}
+  .hstat-val{font-size:15px}
+  .logo-text p{display:none}
+  .grid-4{grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:1rem}
+  .metric-value{font-size:18px}
+  .metric-sub{font-size:10px}
+  .metric{padding:.85rem .9rem}
+  .grid-2{grid-template-columns:1fr;gap:.75rem;margin-bottom:.75rem}
+  .card{padding:.9rem 1rem}
+  .kanban{display:flex;overflow-x:auto;-webkit-overflow-scrolling:touch;scroll-snap-type:x mandatory;gap:.75rem;padding-bottom:.5rem}
+  .kanban::-webkit-scrollbar{height:3px}
+  .kanban-col{min-width:78vw;scroll-snap-align:start;flex-shrink:0;min-height:160px}
+  .pie-wrap{flex-direction:column;align-items:center;gap:1rem}
+  .pie-canvas-wrap{width:200px;height:200px}
+  .pie-legend{width:100%;min-width:0}
+  .table-wrap.desktop-table{display:none}
+  .item-card-list{display:block}
+  .modal-overlay{align-items:flex-end;padding:0}
+  .modal{border-radius:var(--r) var(--r) 0 0;max-width:100%;max-height:88vh;transform:translateY(100%) !important;padding:1.25rem 1rem 1.5rem}
+  .modal-overlay.open .modal{transform:translateY(0) !important}
+  .modal-wide{max-width:100%}
+  .form-row{grid-template-columns:1fr}
+  #price-chart-select{width:100% !important;margin-top:.5rem}
+  .card-title{flex-direction:column;align-items:flex-start;gap:.5rem}
+  .section-head{flex-direction:column;align-items:flex-start;gap:.6rem}
+  .section-head > div{width:100%;display:flex;gap:6px;flex-wrap:wrap}
+  .section-head > div .btn{flex:1;text-align:center;justify-content:center}
+  .linechart-wrap{height:180px}
+  #tab-prioridades .section-head > div:last-child{display:none}
+  .filterbar{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:2px}
+  .filterbar::-webkit-scrollbar{display:none}
+  .fchip{flex-shrink:0}
+  .model-grid{grid-template-columns:1fr 1fr}
+  .toast{bottom:calc(var(--nav-h) + .5rem);right:.75rem;left:.75rem}
+}
 </style>
 </head>
 <body>
@@ -243,6 +337,17 @@ tr:hover td{background:var(--bg3)}
     </div>
   </div>
 </div>
+
+<!-- BOTTOM NAV (mobile) -->
+<nav class="bottom-nav">
+  <div class="bottom-nav-inner">
+    <button class="bnav-btn active" id="bnav-visao" onclick="switchTab('visao',this,true)"><span class="bnav-icon">🏠</span><span class="bnav-label">Início</span></button>
+    <button class="bnav-btn" id="bnav-itens" onclick="switchTab('itens',this,true)"><span class="bnav-icon">📋</span><span class="bnav-label">Lista</span></button>
+    <button class="bnav-btn" id="bnav-prioridades" onclick="switchTab('prioridades',this,true)"><span class="bnav-icon">🎯</span><span class="bnav-label">Prior.</span></button>
+    <button class="bnav-btn" id="bnav-precos" onclick="switchTab('precos',this,true)"><span class="bnav-icon">💰</span><span class="bnav-label">Preços</span></button>
+    <button class="bnav-btn" id="bnav-analise" onclick="switchTab('analise',this,true)"><span class="bnav-icon">📊</span><span class="bnav-label">Análise</span></button>
+  </div>
+</nav>
 
 <!-- HEADER -->
 <header class="header">
@@ -318,7 +423,7 @@ tr:hover td{background:var(--bg3)}
     </div>
   </div>
   <div class="filterbar" id="item-filters"></div>
-  <div class="table-wrap">
+  <div class="table-wrap desktop-table">
     <table>
       <thead><tr>
         <th>Item</th><th>Categoria</th><th>Modelos</th><th>Melhor preço</th>
@@ -327,6 +432,7 @@ tr:hover td{background:var(--bg3)}
       <tbody id="items-table-body"></tbody>
     </table>
   </div>
+  <div class="item-card-list" id="items-card-list"></div>
 </div>
 
 <!-- ═══ PRIORIDADES ═══ -->
@@ -547,7 +653,7 @@ tr:hover td{background:var(--bg3)}
 //  CONFIGURAÇÃO
 // ══════════════════════════════════════════════════════
 const CONFIG = {
-  API_KEY:    'AIzaSyBzLikTWAgaBbzo3RnLwAzh94KVNen4vWc',
+  API_KEY:    'COLE_SUA_API_KEY_AQUI',
   SHEET_ID:   '1aLEf1MXYKr_ifkqS8Br50gksCSzBh5t5m9VXkQmqDsA',
   SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbyqaClJVFglLiLTD8DG4M9iNnUEAIBu009w38ymu53TgxWS5a41gpzzLzqA4iN4tKpl-g/exec',
 };
@@ -662,7 +768,7 @@ function setSyncStatus(type,msg){
 // ══════════════════════════════════════════════════════
 function renderAll(){
   updateHeaderStats(); renderMetrics(); renderCatProgress(); renderPie(pieLevel);
-  renderSemPreco(); renderOpps(); renderItemsTable(); renderKanban();
+  renderSemPreco(); renderOpps(); renderItemsTable(); renderItemCardList(); renderKanban();
   renderPriceLog(); renderMinTable(); updatePriceChartSelect();
   renderVariacao(); renderStatusSummary(); renderAllOpps(); populateSelects();
 }
@@ -822,7 +928,32 @@ function renderItemsTable(){
     </tr>`;
   }).join('');
 }
-function setItemFilter(f){itemFilter=f;renderItemsTable();}
+function setItemFilter(f){itemFilter=f;renderItemsTable();renderItemCardList();}
+
+function renderItemCardList(){
+  const el=document.getElementById('items-card-list');
+  if(!el) return;
+  let d=itemFilter==='Todos'?state.items:state.items.filter(i=>i.pri===itemFilter||i.status===itemFilter);
+  if(!d.length){el.innerHTML='<div class="empty"><div class="empty-icon">📦</div><div class="empty-title">Nenhum item</div></div>';return;}
+  const stC={Comprado:'b-comprado','Em pesquisa':'b-pesquisa','Não comprado':'b-nao'};
+  el.innerHTML=d.map(i=>{
+    const ms=itemModelos(i.id); const bp=itemBestPrice(i.id);
+    return `<div class="item-card" onclick="openDetail('${i.id}')">
+      <div class="item-card-dot" style="background:${catColor(i.catId)}"></div>
+      <div class="item-card-body">
+        <div class="item-card-name">${i.nome}</div>
+        <div class="item-card-meta">
+          <span class="badge ${stC[i.status]||'b-nao'}" style="font-size:9px">${i.status||'Não comprado'}</span>
+          ${ms.length?`<span style="font-size:10px;color:var(--text3)">${ms.length} modelo${ms.length>1?'s':''}</span>`:''}
+        </div>
+      </div>
+      <div class="item-card-right">
+        <div class="item-card-price">${bp?fmt(bp.preco):(i.est?fmt(i.est):'—')}</div>
+        <div class="item-card-chevron">›</div>
+      </div>
+    </div>`;
+  }).join('');
+}
 
 // ── KANBAN ───────────────────────────────────────────
 function renderKanban(){
@@ -1294,11 +1425,18 @@ async function updateItemInSheets(item){
 }
 
 // ── TABS ─────────────────────────────────────────────
-function switchTab(id,btn){
+function switchTab(id, btn, fromBottom=false){
   document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('show'));
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
-  document.getElementById('tab-'+id).classList.add('show');btn.classList.add('active');
-  if(id==='precos')setTimeout(renderLineChart,50);
+  document.querySelectorAll('.bnav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('show');
+  if(btn) btn.classList.add('active');
+  // sync the other nav
+  const topBtn = document.querySelector(`.nav-btn[onclick*="'${id}'"]`);
+  if(topBtn) topBtn.classList.add('active');
+  const botBtn = document.getElementById('bnav-'+id);
+  if(botBtn) botBtn.classList.add('active');
+  if(id==='precos') setTimeout(renderLineChart,50);
 }
 
 // ── TOAST ─────────────────────────────────────────────
